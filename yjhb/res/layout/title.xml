@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="43dip"
+    android:orientation="horizontal" >
+
+    <ImageButton
+        android:id="@+id/titlebar_img_btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5.0dip"
+        android:background="#00000000"
+        android:contentDescription="@string/titlebar_img_btn_left_desc"
+        android:src="@drawable/titlebar_img_btn_back" />
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/titlebar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/titlebar_title_bg"
+        android:orientation="horizontal" 
+        >
+
+        <TextView
+            android:id="@+id/titlebar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="#FF000000"
+            android:textSize="24dip"
+            android:textStyle="bold"
+            android:shadowColor="#CC200000"
+            android:shadowDx="0"
+            android:text="标题"
+            android:shadowDy="-1.5"
+            android:shadowRadius="1" />
+
+        <ImageView
+            android:id="@+id/titlebar_down_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@+id/titlebar_text"
+            android:background="#00000000"
+            android:contentDescription="@string/titlebar_img_btn_down_arrow_desc"
+            android:src="@drawable/titlebar_img_btn_down_arrow"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/titlebar_img_btn_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5.0dip"
+        android:background="#00000000"
+        android:contentDescription="@string/titlebar_img_btn_right_desc"
+        android:src="@drawable/titlebar_img_btn_reload" />
+
+</RelativeLayout>

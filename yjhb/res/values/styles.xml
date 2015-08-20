@@ -1,0 +1,13 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="title" parent="android:Theme">
+        <item name="android:windowTitleSize">43.0dip</item>
+        <item name="android:windowTitleBackgroundStyle">@style/title_bg</item>
+    </style>
+    
+     <!-- title style -->
+    <style name="title_bg">
+        <item name="android:background">@drawable/titlebar_bg</item>
+    </style>
+    
+</resources>
