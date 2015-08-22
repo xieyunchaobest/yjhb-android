@@ -3,27 +3,25 @@ package cn.com.xyc.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import cn.com.xyc.R;
 
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
-import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
-import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
 import com.baidu.mapapi.model.LatLng;
 
 public class MapActivity extends BaseActivity {
@@ -84,16 +82,19 @@ public class MapActivity extends BaseActivity {
 		
 		mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 			public boolean onMarkerClick(final Marker marker) {
-				Button button = new Button(getApplicationContext());
-				button.setBackgroundResource(R.drawable.popup);
+				
 				OnInfoWindowClickListener listener = null;
 				if (marker == mMarkerA ) {
-
+					Button button = new Button(getApplicationContext());
+					button.setBackgroundResource(R.drawable.popup);
+					
 					button.setText("¸ü¸ÄÍ¼±ê");
 					button.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
-							marker.setIcon(bd);
-							mBaiduMap.hideInfoWindow();
+//							marker.setIcon(bd);
+//							mBaiduMap.hideInfoWindow();
+							startActivity(new Intent(MapActivity.this, StoreInfoActivity.class));
+
 						}
 					});
 					LatLng ll = marker.getPosition();

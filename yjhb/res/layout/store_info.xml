@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="#FFFFFF"> 
+	<include layout="@layout/title" />
+	
+	  <cn.com.xyc.view.EditLabelText
+        android:id="@+id/elt_mdmc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/mdmc"
+        android:paddingLeft="10.0dip" />
+	  
+	  <cn.com.xyc.view.EditLabelText
+        android:id="@+id/elt_mdwz"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/mdwz"
+        android:paddingLeft="10.0dip" />
+	  
+	  <cn.com.xyc.view.EditLabelText
+        android:id="@+id/elt_cclx"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/cclx"
+        android:paddingLeft="10.0dip" />
+	  
+	  
+	  
+	     <LinearLayout 
+    android:orientation="horizontal" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_gravity="center_horizontal"> 
+   <Button
+        android:id="@+id/btn_rentnow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_btn"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16dip" />
+  </LinearLayout>  
+  
+	     
+	  
+	  
+ 
+ 
+</LinearLayout>

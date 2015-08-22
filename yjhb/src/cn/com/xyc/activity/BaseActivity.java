@@ -36,34 +36,37 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 	}
 	
+	 
+	
+	
 	 @Override
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
 			// TODO Auto-generated method stub
 
-			if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage("��ȷ���˳���")
-						.setCancelable(false)
-						.setPositiveButton("ȷ��",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										finish();
-										System.exit(0);
-									}
-								})
-						.setNegativeButton("����",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										dialog.cancel();
-									}
-								});
-				AlertDialog alert = builder.create();
-				alert.show();
-				return true;
-			}
+//			if (keyCode == KeyEvent.KEYCODE_BACK) {
+//
+//				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//				builder.setMessage("��ȷ���˳���")
+//						.setCancelable(false)
+//						.setPositiveButton("ȷ��",
+//								new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,
+//											int id) {
+//										finish();
+//										System.exit(0);
+//									}
+//								})
+//						.setNegativeButton("����",
+//								new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,
+//											int id) {
+//										dialog.cancel();
+//									}
+//								});
+//				AlertDialog alert = builder.create();
+//				alert.show();
+//				return true;
+//			}
 
 			return super.onKeyDown(keyCode, event);
 		}

@@ -66,6 +66,13 @@
              android:screenOrientation="portrait"
             android:theme="@style/title" >
         </activity>
+        
+         <activity
+            android:name="cn.com.xyc.activity.StoreInfoActivity"
+            android:exported="false"
+             android:screenOrientation="portrait"
+            android:theme="@style/title" >
+        </activity>
     </application>
     
     
