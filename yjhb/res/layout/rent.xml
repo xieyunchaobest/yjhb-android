@@ -20,10 +20,10 @@
         android:layout_height="wrap_content"
         android:text="取车信息" />
          
-    <cn.com.xyc.view.EditLabelText
+    <cn.com.xyc.view.LabelText
         android:id="@+id/elt_mdmc"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"
@@ -31,10 +31,10 @@
         label="@string/mdmc"
         android:paddingLeft="10.0dip" />
     
-    <cn.com.xyc.view.EditLabelText
+    <cn.com.xyc.view.LabelText
         android:id="@+id/elt_time"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
@@ -42,10 +42,10 @@
         label="@string/ycsj"
         android:paddingLeft="10.0dip" />
     
-    <cn.com.xyc.view.EditLabelText
+    <cn.com.xyc.view.LabelText
         android:id="@+id/elt_clxh"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         bgImage="@drawable/dev_line_bg_common"
@@ -67,10 +67,10 @@
         android:layout_height="wrap_content"
         android:text="还车信息" />
          
-    <cn.com.xyc.view.EditLabelText
+    <cn.com.xyc.view.LabelText
         android:id="@+id/elt_mdmc_return"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+       android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"
@@ -78,10 +78,10 @@
         label="@string/mdmc"
         android:paddingLeft="10.0dip" />
     
-    <cn.com.xyc.view.EditLabelText
+    <cn.com.xyc.view.LabelText
         android:id="@+id/elt_time_return"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+       android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
@@ -89,10 +89,10 @@
         label="@string/ycsj"
         android:paddingLeft="10.0dip" />
     
-    <cn.com.xyc.view.EditLabelText
+    <cn.com.xyc.view.LabelText
         android:id="@+id/elt_clxh_return"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         bgImage="@drawable/dev_line_bg_common"
@@ -100,6 +100,44 @@
         android:paddingLeft="10.0dip" />
     </LinearLayout>
     
+     <LinearLayout android:id="@+id/lay_fee"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:layout_marginTop="15dip"
+    android:orientation="vertical" >
+     
+     <TextView
+        android:id="@+id/txt_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="费用信息[5元手续费+30元/小时*3小时]" />
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_clxh_fee"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/zfy"
+        android:paddingLeft="10.0dip" />
     
+    </LinearLayout>
+    
+     <LinearLayout 
+    android:orientation="horizontal" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_gravity="center_horizontal"> 
+   <Button
+        android:id="@+id/btn_rent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_btn"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16dip" />
+  </LinearLayout>  
 
 </LinearLayout>
