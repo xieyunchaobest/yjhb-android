@@ -1,12 +1,22 @@
 package cn.com.xyc.activity;
  
+import java.io.IOException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +24,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.com.xyc.R;
+import cn.com.xyc.YjhbApp;
+import cn.com.xyc.util.CacheProcess;
+import cn.com.xyc.util.Constant;
+import cn.com.xyc.util.Result;
+import cn.com.xyc.util.StringUtil;
+
+import com.alibaba.fastjson.JSON;
 
 public class BaseActivity extends Activity {
 
@@ -30,6 +48,7 @@ public class BaseActivity extends Activity {
 	private SharedPreferences sharedPreferences;
 	TextView  titleWrapText;
 	
+	private Result res=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -194,5 +213,108 @@ public class BaseActivity extends Activity {
 			});
 		}
 
+		/**
+		 * 以post方式提交数据
+		 * @param url 服务器的地址，直接写Action的地址，如tm/WoHandleAction.do?method=query
+		 * @param parameter 拼接好的json字符串
+		 * @return 服务端json字符串，当服务器端返回AppException或SysException时，得到的字符串是一个html文档
+		 * @throws SysException 
+		 * @throws ClientProtocolException
+		 * @throws IOException
+		 */
+		public Result getPostHttpContent(String serverName,String method,String parameter) {
+			YjhbApp  app= (YjhbApp)this.getApplication();   
+			HttpClient client = app.getHttpClient(); 
+			String serverUrl="";
+			res=new Result();
+			if(!StringUtil.isBlank(serverName)) {
+				serverUrl=serverName;
+			}else {
+				serverUrl=Constant.ServerURL+method;
+			}
+			
+			System.out.println("parameterparameter="+parameter);
+			HttpPost post = new HttpPost(serverUrl);
+			post.addHeader("Content-Type", "application/json");
+			com.alibaba.fastjson.JSONObject reqJson=com.alibaba.fastjson.JSONObject.parseObject(parameter);
+			String cacheInfo=new CacheProcess().getCacheValueInSharedPreferences(this, "cacheInfo");
+			System.out.println("cacheInfocacheInfo="+cacheInfo);
+			if(!StringUtil.isBlank(cacheInfo)) {
+				com.alibaba.fastjson.JSONObject j=com.alibaba.fastjson.JSONObject.parseObject(cacheInfo);
+				com.alibaba.fastjson.JSONObject userCache=j.getJSONObject("suveJsonObject");
+				com.alibaba.fastjson.JSONObject sysUser=userCache.getJSONObject("sysUserSVO");
+				reqJson.put("sysUserId", sysUser.getString("sysUserId"));
+				reqJson.put("loginType", "A");
+			}else {
+				reqJson.put("staffId", "");
+				reqJson.put("loginType", "A");
+			}
+			
+			try {
+				StringEntity resEntity = new StringEntity(reqJson.toJSONString(), "UTF-8");
+				post.setEntity(resEntity);
+				// 获取响应的结果
+				HttpResponse response = client.execute(post);
+				// 获取HttpEntity
+				HttpEntity respEntity = response.getEntity();
+				// 获取响应的结果信息
+				String resp= EntityUtils.toString(respEntity); 
+				res= JSON.parseObject(resp, Result.class);  
+				System.out.println("respnoserespnoser===="+resp);
+			} catch (Exception e) {
+				res.resultCode=0;
+				res.result="网络连接异常！";
+				
+			} 
+			return res;
+		}
 		
+		
+		
+		
+		public Handler baseHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case -1: {//处理异常信息
+					Toast.makeText(getApplicationContext(), (String)res.result,
+							Toast.LENGTH_SHORT).show();
+					dealWithException();
+					closeProcessDialog();
+					break;
+				}
+				case 100: {
+					redrawComponent(msg);
+					closeProcessDialog();
+					break;
+				}
+				}
+			}
+		};
+		
+		protected void redrawComponent(Message msg) {
+
+		}
+		
+		
+		protected void closeProcessDialog() {
+			if(mProgressDialog!=null) {
+				mProgressDialog.dismiss();
+			}
+		}
+		
+		protected void dealWithException() {
+			
+		}
+		
+		
+		protected boolean handleError(Result res) {
+			if (res.resultCode==0) { 
+				Message errMsg=new Message();
+				errMsg.what=-1;
+				baseHandler.sendMessage(errMsg);
+				return true;
+			}
+			return false;
+		}
 }

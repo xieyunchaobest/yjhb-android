@@ -1,18 +1,25 @@
 package cn.com.xyc.activity;
 
 import java.util.Map;
- 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import cn.com.xyc.R;
+import cn.com.xyc.util.CacheProcess;
+import cn.com.xyc.util.Constant;
+import cn.com.xyc.util.JsonUtil;
+import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.view.LabelText;
 import cn.com.xyc.view.datepicker.DatePicker;
 import cn.com.xyc.view.datepicker.DatePicker.DateTimeSetListener;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 public class RentActivity extends BaseActivity {
 	private Button btnRent;
@@ -41,9 +48,8 @@ public class RentActivity extends BaseActivity {
 			initView();
 			registerListener();
 			super.setTitleBar("×â³µ",View.GONE,View.GONE,View.INVISIBLE,false);
-			if(1==1) {
-				startActivity(new Intent(RentActivity.this, LoginActivity.class));
-			}
+			isLogin();
+			 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -136,6 +142,20 @@ public class RentActivity extends BaseActivity {
 		});
 	}
 	
+	public void isLogin(){
+		CacheProcess c=new CacheProcess();
+		String cache=c.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_KEY_USER);
+		if(StringUtil.isBlank(cache)) {
+			startActivity(new Intent(RentActivity.this, LoginActivity.class));
+			return ;
+		}
+		JSONObject user = JSON.parseObject(cache);  
+		System.out.println("uuuuuuuuuuuuuuu="+cache);
+		if(user!=null && user.containsKey("mobileNo") && !(StringUtil.isBlank(user.getString("mobileNo")))) {
+		}else {
+			startActivity(new Intent(RentActivity.this, LoginActivity.class));
+		}
+	}
 	 @Override
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	        if(requestCode==STORE_GET_CODE){
@@ -158,5 +178,12 @@ public class RentActivity extends BaseActivity {
 	        }
 	        super.onActivityResult(requestCode, resultCode, data);
 	    }
+	 
+	 @Override
+	 public void onResume() {
+		 super.onResume();
+		 //isLogin();
+		 System.out.println("goongoongoongoongoongoongoongoongoon");
+	 }
  
 }

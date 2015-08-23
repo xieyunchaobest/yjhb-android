@@ -110,4 +110,10 @@ public class BuyActivity extends BaseActivity {
 	        super.onActivityResult(requestCode, resultCode, data);
 	    }
  
+	 @Override
+	public void onPause()
+	{
+		 System.out.println("ÔÝÍ£ÔÝÍ£ÔÝÍ£ÔÝÍ£ÔÝÍ£ÔÝÍ£ÔÝÍ£ÔÝÍ£");
+		 super.onPause();
+		}
 }

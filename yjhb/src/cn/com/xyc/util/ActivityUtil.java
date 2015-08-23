@@ -38,6 +38,12 @@ public class ActivityUtil {
         System.exit(0);  
     }  
     
+    public static void clearLogin() {
+    	for (Activity activity : activityList) {  
+    		System.out.println("898989898989="+activity.getClass().getName());
+        }  
+    }
+    
     public List getActivityList(){
     	return activityList;
     }

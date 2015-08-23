@@ -166,7 +166,7 @@ public final class R {
         public static final int lay_item=0x7f080009;
         public static final int lay_return=0x7f080032;
         public static final int layout_myexam_item=0x7f08002a;
-        public static final int login_autocode=0x7f080021;
+        public static final int login_authcode=0x7f080021;
         public static final int login_mobile=0x7f08001e;
         public static final int main_tab_addExam=0x7f080024;
         public static final int main_tab_group=0x7f080023;
