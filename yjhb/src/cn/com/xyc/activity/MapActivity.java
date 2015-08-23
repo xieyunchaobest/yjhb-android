@@ -88,7 +88,7 @@ public class MapActivity extends BaseActivity {
 					Button button = new Button(getApplicationContext());
 					button.setBackgroundResource(R.drawable.popup);
 					
-					button.setText("更改图标");
+					button.setText("我要租车");
 					button.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 //							marker.setIcon(bd);
