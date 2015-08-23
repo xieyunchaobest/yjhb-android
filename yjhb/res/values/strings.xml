@@ -18,6 +18,10 @@
     <string name="clxh">车辆型号</string>
     <string name="ycsj">用车时间</string>
     <string name="zfy">总费用</string>
+    <string name="lxkf">联系客服</string>
+    <string name="wxfx">微信分享</string>
+    <string name="dqbb">当前版本</string>
+	<string name="exit">退出登录</string>
 
     <style name="MMTabButton">
 		<item name="android:textSize">12.0dip</item>

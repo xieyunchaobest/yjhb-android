@@ -43,7 +43,6 @@ public class StoreListActivity  extends BaseListActivity{
 			setTitleBar("选择门店",View.GONE,View.GONE,View.GONE,false);
 
 			refreshListView = (PullToRefreshListView) getListView();
-			initDataSource();
 			initView();
 			registerListener();
 			ActivityUtil.getInstance().addActivity(this);
@@ -56,14 +55,14 @@ public class StoreListActivity  extends BaseListActivity{
 	
 	private void initDataSource(){
 		Map m1=new HashMap();
-		m1.put(key[0], "西土城店");
+		m1.put(key[0], "西土城店1");
 		m1.put(key[1], "西土城南路32号会展中心南100米游捷滑板");
 		m1.put(key[2], "1");
 		m1.put(key[3], "11.12121");
 		m1.put(key[4], "11.12121");
 		
 		Map m2=new HashMap();
-		m2.put(key[0], "西土城店");
+		m2.put(key[0], "西土城店2");
 		m2.put(key[1], "西土城南路32号会展中心南100米游捷滑板");
 		m2.put(key[2], "1");
 		m2.put(key[3], "11.12121");
@@ -130,7 +129,7 @@ public class StoreListActivity  extends BaseListActivity{
 					long arg3) {
 				Intent intent=getIntent();
 				int flag=intent.getIntExtra("fromFlag",0);
-				intent.putExtra("store",  (HashMap)storeList.get(arg2));
+				intent.putExtra("store",  (HashMap)storeList.get(arg2-1));
 				setResult(flag,intent);
 
 				StoreListActivity.this.finish();  

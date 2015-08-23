@@ -45,7 +45,7 @@ public class MainActivity extends TabActivity {
         spec=tabHost.newTabSpec("购车").setIndicator("购车").setContent(intent);
         tabHost.addTab(spec);
         
-        intent=new Intent().setClass(this, OrdersActivity.class);
+        intent=new Intent().setClass(this, OrderListActivity.class);
         spec=tabHost.newTabSpec("订单").setIndicator("订单").setContent(intent);
         tabHost.addTab(spec);
         

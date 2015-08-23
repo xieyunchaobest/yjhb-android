@@ -2,9 +2,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" > 
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:id="@+id/root"
+     >
+
+    <include layout="@layout/title" />
     
-	<include layout="@layout/title" />
- 
- 
+
+    <LinearLayout android:id="@+id/lay_buy"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+     
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_mdmc"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/mdmc"
+        android:paddingLeft="10.0dip" />
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_time"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/ycsj"
+        android:paddingLeft="10.0dip" />
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_clxh"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/clxh"
+        android:paddingLeft="10.0dip" />
+    </LinearLayout>
+    
+     <LinearLayout android:id="@+id/lay_fee"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:layout_marginTop="15dip"
+    android:orientation="vertical" >
+     
+     <TextView
+        android:id="@+id/txt_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="费用信息" />
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_clxh_fee"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/zfy"
+        android:paddingLeft="10.0dip" />
+    
+    </LinearLayout>
+    
+     <LinearLayout 
+    android:orientation="horizontal" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_gravity="center_horizontal"> 
+   <Button
+        android:id="@+id/btn_rent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_btn"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16dip" />
+  </LinearLayout>  
+
 </LinearLayout>

@@ -3,16 +3,57 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-<include layout="@layout/title" />
-    <TextView
-        android:id="@+id/textView1"
+
+    <include layout="@layout/title" />
+
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_lxkf"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/lxkf"
+        android:paddingLeft="10.0dip" />
+
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_wxfx"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/wxfx"
+        android:paddingLeft="10.0dip" />
+
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_dqbb"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        bgImage="@drawable/dev_line_bg_common"
+        label="@string/dqbb"
+        android:paddingLeft="10.0dip" />
+ 
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_rent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_btn"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16dip" />
+    </LinearLayout>
 
 </LinearLayout>

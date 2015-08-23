@@ -61,7 +61,7 @@ public class MapActivity extends BaseActivity {
 			OverlayOptions ooA = new MarkerOptions().position(p).icon(bdA)
 					.zIndex(9).draggable(true);
 			mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
-			super.setTitleBar("”ŒΩ›ª¨∞Â",View.GONE,View.GONE,View.INVISIBLE,false);
+			super.setTitleBar("”ŒΩ›ª¨∞Â",View.GONE,View.VISIBLE,View.INVISIBLE,false);
 			
 			
 			mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
@@ -122,6 +122,16 @@ public class MapActivity extends BaseActivity {
 		mMapView.onResume();
 	}
 
+	/**
+	 */
+	public void rightButtonOnClick() {
+		titleRightButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				startActivity(new Intent(MapActivity.this, LoginActivity.class));
+			}
+		});
+	}
 	
 	
 	@Override
