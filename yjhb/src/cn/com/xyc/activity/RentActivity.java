@@ -158,32 +158,29 @@ public class RentActivity extends BaseActivity {
 	}
 	 @Override
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	        if(requestCode==STORE_GET_CODE){
-	        	Bundle b=data.getExtras();
-	        	Map storemap=(Map)b.getSerializable("store");
-	        	ltgetmd.getValueText().setText((String)storemap.get("item_name"));
-	        }
-	        else if(requestCode==STORE_RETURN_CODE){
-	        	Bundle b=data.getExtras();
-	        	Map storemap=(Map)b.getSerializable("store");
-	        	ltreturnmd.getValueText().setText((String)storemap.get("item_name"));
-	        }else if(requestCode==CAR_GET_CODE){
-	        	Bundle b=data.getExtras();
-	        	Map caremap=(Map)b.getSerializable("car");
-	        	ltgetmodel.getValueText().setText((String)caremap.get("item_model"));
-	        }else if(requestCode==CAR_RETURN_CODE){
-	        	Bundle b=data.getExtras();
-	        	Map caremap=(Map)b.getSerializable("car");
-	        	ltretunmodel.getValueText().setText((String)caremap.get("item_model"));
-	        }
+		 if(data!=null) {
+			 if(requestCode==STORE_GET_CODE){
+		        	Bundle b=data.getExtras();
+		        	Map storemap=(Map)b.getSerializable("store");
+		        	ltgetmd.getValueText().setText((String)storemap.get("item_name"));
+		        }
+		        else if(requestCode==STORE_RETURN_CODE){
+		        	Bundle b=data.getExtras();
+		        	Map storemap=(Map)b.getSerializable("store");
+		        	ltreturnmd.getValueText().setText((String)storemap.get("item_name"));
+		        }else if(requestCode==CAR_GET_CODE){
+		        	Bundle b=data.getExtras();
+		        	Map caremap=(Map)b.getSerializable("car");
+		        	ltgetmodel.getValueText().setText((String)caremap.get("item_model"));
+		        }else if(requestCode==CAR_RETURN_CODE){
+		        	Bundle b=data.getExtras();
+		        	Map caremap=(Map)b.getSerializable("car");
+		        	ltretunmodel.getValueText().setText((String)caremap.get("item_model"));
+		        }
+		 }
+	        
 	        super.onActivityResult(requestCode, resultCode, data);
 	    }
 	 
-	 @Override
-	 public void onResume() {
-		 super.onResume();
-		 //isLogin();
-		 System.out.println("goongoongoongoongoongoongoongoongoon");
-	 }
- 
+	 
 }

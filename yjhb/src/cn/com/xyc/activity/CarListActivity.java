@@ -70,39 +70,6 @@ public class CarListActivity  extends BaseListActivity{
 		
 		carList.add(m1);
 		carList.add(m2);
-//		
-//		String funcList=this.getCacheProcess().getCacheValueInSharedPreferences(this, "funcList"); 
-//		isCanDefectInput=this.getCacheProcess().getCacheValueInSharedPreferences(this, "defectIsCanInput"); 
-//		com.alibaba.fastjson.JSONArray funcArr=com.alibaba.fastjson.JSONObject.parseArray(funcList);
-//		if(funcArr!=null && funcArr.size()>0) {
-//			for(int i=0;i<funcArr.size();i++) {
-//				com.alibaba.fastjson.JSONObject j=(com.alibaba.fastjson.JSONObject)funcArr.get(i);
-//				String funcName=j.getString("name");
-//				if("缺陷管理".equals(funcName)) {
-//					Map defectMap=new HashMap();
-//					defectMap.put(key[0], R.drawable.func_broken);
-//					defectMap.put(key[1], "缺陷录入");
-//					defectMap.put(key[2], "QXLR");
-//					funcNodeList.add(defectMap);
-//				}
-//				if("设备台账".equals(funcName)) {
-//					Map deviceMap=new HashMap();
-//					deviceMap.put(key[0], R.drawable.func_device);
-//					deviceMap.put(key[1], "设备录入");
-//					deviceMap.put(key[2], "SBLR");
-//					funcNodeList.add(deviceMap);
-//				}
-//			}
-//		}
-//		
-//		Map settingMap=new HashMap();
-//		settingMap.put(key[0], R.drawable.func_tools);
-//		settingMap.put(key[1], "设置");
-//		settingMap.put(key[2], "SZ");
-//		
-//		
-//		
-//		funcNodeList.add(settingMap);
 	}
  
 	protected void initView() {
@@ -136,31 +103,12 @@ public class CarListActivity  extends BaseListActivity{
 				setResult(flag,intent);
 
 				CarListActivity.this.finish();  
-//				Intent intent = new Intent();
-//				Map m=funcNodeList.get(arg2-1);
-//				String code=(String)m.get("func_node_list_item_code");
-//				if("QXLR".equals(code)){
-//					if("1".equals(isCanDefectInput)) {
-//						intent.setClass(StoreListActivity.this,
-//								DefecAdd1tActivity.class);
-//						startActivity(intent);
-//					}else {
-//						Toast.makeText(getApplicationContext(), "当前时间已超过开业时间+180天，不能录入!", Toast.LENGTH_SHORT).show();
-//					}
-//				}else if("SBLR".equals(code)){
-//					intent.setClass(FuncNodeListActivity.this,
-//							DeviceAdd1tActivity.class);
-//					startActivity(intent);
-//				}else{
-//					intent.setClass(FuncNodeListActivity.this,
-//							SettingActivity.class);
-//					startActivity(intent);
-//				}
+
 
 			}
 
 		});
 	}
-	
+	 
 
 }

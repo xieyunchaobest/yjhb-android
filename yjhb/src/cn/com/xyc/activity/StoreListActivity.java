@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,9 +13,9 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 import cn.com.xyc.R;
 import cn.com.xyc.util.ActivityUtil;
+import cn.com.xyc.util.CrashHandler;
 import cn.com.xyc.view.PullToRefreshListView;
 
 public class StoreListActivity  extends BaseListActivity{
@@ -46,6 +45,8 @@ public class StoreListActivity  extends BaseListActivity{
 			initView();
 			registerListener();
 			ActivityUtil.getInstance().addActivity(this);
+			CrashHandler crashHandler = CrashHandler.getInstance();    
+	        crashHandler.init(this);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -69,40 +70,7 @@ public class StoreListActivity  extends BaseListActivity{
 		m2.put(key[4], "11.12121");
 		
 		storeList.add(m1);
-		storeList.add(m2);
-//		
-//		String funcList=this.getCacheProcess().getCacheValueInSharedPreferences(this, "funcList"); 
-//		isCanDefectInput=this.getCacheProcess().getCacheValueInSharedPreferences(this, "defectIsCanInput"); 
-//		com.alibaba.fastjson.JSONArray funcArr=com.alibaba.fastjson.JSONObject.parseArray(funcList);
-//		if(funcArr!=null && funcArr.size()>0) {
-//			for(int i=0;i<funcArr.size();i++) {
-//				com.alibaba.fastjson.JSONObject j=(com.alibaba.fastjson.JSONObject)funcArr.get(i);
-//				String funcName=j.getString("name");
-//				if("缺陷管理".equals(funcName)) {
-//					Map defectMap=new HashMap();
-//					defectMap.put(key[0], R.drawable.func_broken);
-//					defectMap.put(key[1], "缺陷录入");
-//					defectMap.put(key[2], "QXLR");
-//					funcNodeList.add(defectMap);
-//				}
-//				if("设备台账".equals(funcName)) {
-//					Map deviceMap=new HashMap();
-//					deviceMap.put(key[0], R.drawable.func_device);
-//					deviceMap.put(key[1], "设备录入");
-//					deviceMap.put(key[2], "SBLR");
-//					funcNodeList.add(deviceMap);
-//				}
-//			}
-//		}
-//		
-//		Map settingMap=new HashMap();
-//		settingMap.put(key[0], R.drawable.func_tools);
-//		settingMap.put(key[1], "设置");
-//		settingMap.put(key[2], "SZ");
-//		
-//		
-//		
-//		funcNodeList.add(settingMap);
+		storeList.add(m2); 
 	}
  
 	protected void initView() {
