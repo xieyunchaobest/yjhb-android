@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 import cn.com.xyc.R;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
@@ -37,6 +38,12 @@ public class RentActivity extends BaseActivity {
 	private int CAR_GET_CODE=2;
 	private int CAR_RETURN_CODE=3;
 	
+	Intent intent =null;
+	
+	Map storegetmap=null;
+	String getTime="";
+	String returnTime="";
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,6 @@ public class RentActivity extends BaseActivity {
 			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.rent);
-			System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
 			initView();
 			registerListener();
 			super.setTitleBar("租车",View.GONE,View.GONE,View.INVISIBLE,false);
@@ -71,10 +77,17 @@ public class RentActivity extends BaseActivity {
 	
 	
 	protected void registerListener() {
+		btnRent.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				 if(validate()==false) return ;
+			}
+		});
+		
 		ltgetmd.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(RentActivity.this,
+				 intent = new Intent(RentActivity.this,
 						StoreListActivity.class);
 				intent.putExtra("fromFlag", STORE_GET_CODE);
 				
@@ -85,7 +98,7 @@ public class RentActivity extends BaseActivity {
 		ltreturnmd.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(RentActivity.this,
+				intent = new Intent(RentActivity.this,
 						StoreListActivity.class);
 				intent.putExtra("fromFlag", STORE_RETURN_CODE);
 				startActivityForResult(intent,STORE_RETURN_CODE);
@@ -96,8 +109,9 @@ public class RentActivity extends BaseActivity {
 				public void onClick(View v) {
 					DatePicker	birth = new DatePicker(RentActivity.this, new DateTimeSetListener() {
 						public void onDateSet(int year, int month,
-								int day) {
-							ltgetdate.getValueText().setText(year+"-"+(month>10?month:"0"+month)+"-"+day);
+								int day,int h) {
+							getTime=year+"-"+(month>=10?month:"0"+month)+"-"+day+" "+(h>=10?h:"0"+h)+":00";
+							ltgetdate.getValueText().setText(getTime);
 						}
 						 
 					});
@@ -110,8 +124,9 @@ public class RentActivity extends BaseActivity {
 			public void onClick(View v) {
 				DatePicker	birth = new DatePicker(RentActivity.this, new DateTimeSetListener() {
 					public void onDateSet(int year, int month,
-							int day) {
-						ltreturndate.getValueText().setText(year+"-"+(month>10?month:"0"+month)+"-"+day);
+							int day,int hour) {
+						returnTime=year+"-"+(month>=10?month:"0"+month)+"-"+day+" "+(hour>=10?hour:"0"+hour)+":00";
+						ltreturndate.getValueText().setText(returnTime);
 					}
 					 
 				});
@@ -120,13 +135,13 @@ public class RentActivity extends BaseActivity {
 			}
 		});
 		
+		
 		ltgetmodel.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(RentActivity.this,
+				intent = new Intent(RentActivity.this,
 						CarListActivity.class);
 				intent.putExtra("fromFlag", CAR_GET_CODE);
-				
 				startActivityForResult(intent,CAR_GET_CODE);
 			}
 		});
@@ -134,7 +149,7 @@ public class RentActivity extends BaseActivity {
 		ltretunmodel.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(RentActivity.this,
+				intent = new Intent(RentActivity.this,
 						CarListActivity.class);
 				intent.putExtra("fromFlag", CAR_RETURN_CODE);
 				startActivityForResult(intent,CAR_RETURN_CODE);
@@ -161,8 +176,9 @@ public class RentActivity extends BaseActivity {
 		 if(data!=null) {
 			 if(requestCode==STORE_GET_CODE){
 		        	Bundle b=data.getExtras();
-		        	Map storemap=(Map)b.getSerializable("store");
-		        	ltgetmd.getValueText().setText((String)storemap.get("item_name"));
+		        	storegetmap=(Map)b.getSerializable("store");
+		        	
+		        	ltgetmd.getValueText().setText((String)storegetmap.get("item_name"));
 		        }
 		        else if(requestCode==STORE_RETURN_CODE){
 		        	Bundle b=data.getExtras();
@@ -181,6 +197,48 @@ public class RentActivity extends BaseActivity {
 	        
 	        super.onActivityResult(requestCode, resultCode, data);
 	    }
+	 
+	 
+	 public boolean validate() {
+		 if(StringUtil.isBlank(ltgetmd.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请选择门店名称！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		 }
+		 if(StringUtil.isBlank(ltgetdate.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请选择用车时间！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		 }
+		 
+		 if(StringUtil.isBlank(ltgetmodel.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请选择车辆型号！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		 }
+		 if(StringUtil.isBlank(ltreturnmd.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请选择门店名称！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		 }if(StringUtil.isBlank(ltreturndate.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请选择还车时间！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		 }
+		 if(StringUtil.isBlank(ltretunmodel.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请选择车辆型号！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		 }
+		 if((long)(Long.parseLong(returnTime.replaceAll(" ", "").replaceAll(":", "").replaceAll("-", "")) ) <=
+				 (long)(Long.parseLong(getTime.replaceAll(" ", "").replaceAll(":", "").replaceAll("-", "")) )
+				 ) {
+			 Toast.makeText(getApplicationContext(), "还车时间应晚于用车时间！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		 }
+		 return true;
+	 }
 	 
 	 
 }

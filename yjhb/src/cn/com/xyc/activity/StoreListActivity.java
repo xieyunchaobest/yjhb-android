@@ -1,7 +1,9 @@
 package cn.com.xyc.activity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
@@ -15,8 +17,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
 import cn.com.xyc.R;
 import cn.com.xyc.util.ActivityUtil;
+import cn.com.xyc.util.CacheProcess;
+import cn.com.xyc.util.Constant;
 import cn.com.xyc.util.CrashHandler;
 import cn.com.xyc.view.PullToRefreshListView;
+
+import com.alibaba.fastjson.JSONObject;
 
 public class StoreListActivity  extends BaseListActivity{
 
@@ -26,7 +32,7 @@ public class StoreListActivity  extends BaseListActivity{
 	private SimpleAdapter simpleAdapter;
 	private PullToRefreshListView refreshListView; 
 
-	private ArrayList<Map<String, Object>> storeList = new ArrayList<Map<String, Object>>();
+	private List  storeList = new ArrayList ();
 	private String[] key = {"item_name", "item_address",
 			"item_id","item_jd","item_wd"};
 	String isCanDefectInput=null;
@@ -55,22 +61,49 @@ public class StoreListActivity  extends BaseListActivity{
 	}
 	
 	private void initDataSource(){
-		Map m1=new HashMap();
-		m1.put(key[0], "西土城店1");
-		m1.put(key[1], "西土城南路32号会展中心南100米游捷滑板");
-		m1.put(key[2], "1");
-		m1.put(key[3], "11.12121");
-		m1.put(key[4], "11.12121");
-		
-		Map m2=new HashMap();
-		m2.put(key[0], "西土城店2");
-		m2.put(key[1], "西土城南路32号会展中心南100米游捷滑板");
-		m2.put(key[2], "1");
-		m2.put(key[3], "11.12121");
-		m2.put(key[4], "11.12121");
-		
-		storeList.add(m1);
-		storeList.add(m2); 
+		CacheProcess c= new CacheProcess();
+		String cache=c.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_CACHES);
+		JSONObject cj=com.alibaba.fastjson.JSONObject.parseObject(cache);
+		List list = com.alibaba.fastjson.JSON.parseArray(
+				cj.getJSONArray("storeList").toJSONString(),
+				java.util.HashMap.class);
+		if(list!=null && list.size()>0) {
+			for(int i=0;i<list.size();i++) {
+				Map m=(Map)list.get(i);
+				int id=(Integer)m.get("id");
+				String name=(String)m.get("storeName");
+				String address=(String)m.get("address");
+				double longitude=((BigDecimal)m.get("longitude")).doubleValue();
+				double latitude=((BigDecimal)m.get("latitude")).doubleValue();
+				
+				Map mm=new HashMap();
+				mm.put(key[0], name);
+				mm.put(key[1], address);
+				mm.put(key[2], id);
+				mm.put(key[3], longitude);
+				mm.put(key[4], latitude);
+				storeList.add(mm);
+			}
+			
+			
+		}
+//		
+//		Map m1=new HashMap();
+//		m1.put(key[0], "西土城店1");
+//		m1.put(key[1], "西土城南路32号会展中心南100米游捷滑板");
+//		m1.put(key[2], "1");
+//		m1.put(key[3], "11.12121");
+//		m1.put(key[4], "11.12121");
+//		
+//		Map m2=new HashMap();
+//		m2.put(key[0], "西土城店2");
+//		m2.put(key[1], "西土城南路32号会展中心南100米游捷滑板");
+//		m2.put(key[2], "1");
+//		m2.put(key[3], "11.12121");
+//		m2.put(key[4], "11.12121");
+//		
+//		storeList.add(m1);
+//		storeList.add(m2); 
 	}
  
 	protected void initView() {

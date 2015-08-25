@@ -24,8 +24,7 @@ public class BuyActivity extends BaseActivity {
 	private int STORE_GET_CODE=0;
 	private int STORE_RETURN_CODE=1;
 	
-	private int CAR_GET_CODE=2;
-	private int CAR_RETURN_CODE=3;
+	private int CAR_GET_CODE=4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +71,8 @@ public class BuyActivity extends BaseActivity {
 				public void onClick(View v) {
 					DatePicker	birth = new DatePicker(BuyActivity.this, new DateTimeSetListener() {
 						public void onDateSet(int year, int month,
-								int day) {
-							ltdate.getValueText().setText(year+"-"+(month>10?month:"0"+month)+"-"+day);
+								int day,int hour) {
+							ltdate.getValueText().setText(year+"-"+(month>10?month:"0"+month)+"-"+day+" "+hour+":00");
 						}
 						 
 					});

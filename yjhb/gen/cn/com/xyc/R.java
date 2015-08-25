@@ -214,10 +214,11 @@ public final class R {
         public static final int app_name=0x7f060001;
         public static final int cclx=0x7f06000b;
         public static final int clxh=0x7f06000c;
-        public static final int dqbb=0x7f060011;
-        public static final int exit=0x7f060012;
+        public static final int dqbb=0x7f060012;
+        public static final int exit=0x7f060013;
+        public static final int hcsj=0x7f06000e;
         public static final int hello=0x7f060000;
-        public static final int lxkf=0x7f06000f;
+        public static final int lxkf=0x7f060010;
         public static final int mdmc=0x7f060009;
         public static final int mdwz=0x7f06000a;
         public static final int title=0x7f060005;
@@ -227,9 +228,9 @@ public final class R {
         public static final int titlebar_img_btn_down_arrow_desc=0x7f060004;
         public static final int titlebar_img_btn_left_desc=0x7f060002;
         public static final int titlebar_img_btn_right_desc=0x7f060003;
-        public static final int wxfx=0x7f060010;
+        public static final int wxfx=0x7f060011;
         public static final int ycsj=0x7f06000d;
-        public static final int zfy=0x7f06000e;
+        public static final int zfy=0x7f06000f;
     }
     public static final class style {
         public static final int MMTabButton=0x7f070000;

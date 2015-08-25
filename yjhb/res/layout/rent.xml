@@ -88,7 +88,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
         bgImage="@drawable/dev_line_bg_common"
-        label="@string/ycsj"
+        label="@string/hcsj"
         android:paddingLeft="10.0dip" />
     
     <cn.com.xyc.view.LabelText

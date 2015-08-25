@@ -1,23 +1,38 @@
 package cn.com.xyc.activity;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 import cn.com.xyc.R;
 import cn.com.xyc.util.ActivityUtil;
+import cn.com.xyc.util.Constant;
+import cn.com.xyc.util.Result;
 import cn.com.xyc.view.PullToRefreshListView;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 public class CarListActivity  extends BaseListActivity{
 
@@ -31,20 +46,26 @@ public class CarListActivity  extends BaseListActivity{
 	private String[] key = {"item_img","item_model", "item_xh",
 			"item_fee","item_id"};
 	String isCanDefectInput=null;
-
+	
+	Result response=null;
+	private JSONObject reqJson = new com.alibaba.fastjson.JSONObject();
+	Intent intent=null;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		try {
 			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.car_list);
+			
+			intent=getIntent();
+			
 
 			// 设置标题栏
 			setTitleBar("选择车辆",View.GONE,View.GONE,View.GONE,false);
 
 			refreshListView = (PullToRefreshListView) getListView();
-			initView();
 			registerListener();
+			getCars();
 			ActivityUtil.getInstance().addActivity(this);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -53,27 +74,103 @@ public class CarListActivity  extends BaseListActivity{
  
 	}
 	
+	public void loadImage() {
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+			@Override
+			public void run() {
+				for(int i=0;i<carList.size();i++) {
+					Map m=(Map)carList.get(i);
+					String imgAddr=(String)m.get("imgAddr");
+					try {
+						URL url = new URL(imgAddr);
+						HttpURLConnection connection = (HttpURLConnection) url
+								.openConnection();
+						connection.setDoInput(true);
+						connection.connect();
+						InputStream input = connection.getInputStream();
+						Bitmap myBitmap = BitmapFactory.decodeStream(input);
+						m.put("item_img", myBitmap);
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+				Message m = new Message();
+				m.what = 2;
+				handler.sendMessage(m);
+			}
+		});
+mThread.start();
+
+
+	
+	}
+	
+	public void getCars() {
+		String storeId=intent.getStringExtra("storeId");
+		int flag=intent.getIntExtra("fromFlag",0);
+		reqJson.put("storeId", storeId);
+		reqJson.put("tradeType", flag);
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						response = getPostHttpContent("",
+								Constant.METHOD_GET_GET_CARS,
+								reqJson.toJSONString());
+						if (handleError(response) == true)
+							return;
+						Message m = new Message();
+						m.what = 1;
+						handler.sendMessage(m);
+					}
+				});
+		mThread.start();
+	}
+	
+	
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1: {
+				initDataSource();
+			}
+			case 2: {
+				redrawUI();
+
+			}
+				if (mProgressDialog != null)
+					mProgressDialog.dismiss();// 当接到消息时，关闭进度条
+			}
+		}
+	};
+	
 	private void initDataSource(){
-		Map m1=new HashMap();
-		m1.put(key[0], R.drawable.car_1);
-		m1.put(key[1], "极品飞车1");
-		m1.put(key[2], "30公里续航");
-		m1.put(key[3], "30公里/小时");
-		m1.put(key[4], "1");
+ 
+		com.alibaba.fastjson.JSONArray ja = (JSONArray) JSON.toJSON(response.result);
+		List list = com.alibaba.fastjson.JSON.parseArray(
+				ja.toJSONString(),
+				java.util.HashMap.class);
+		for(int i=0;i<list.size();i++) {
+			Map m=(Map)list.get(i);
+			Integer sid=(Integer)m.get("Id");
+			String model=(String)m.get("model");
+			Integer kmAmount=(Integer)m.get("kmCount");
+			Double price=((BigDecimal)m.get("price")).doubleValue();
+			String imgAddr=(String)m.get("imgAddr");
+            
+			Map mm=new HashMap();
+			mm.put(key[0], R.drawable.car_1);
+			mm.put(key[1], model);
+			mm.put(key[2], kmAmount+"公里");
+			mm.put(key[3], price+"元/小时");
+			mm.put(key[4], sid);
+			
+			carList.add(mm);
+		}
 		
-		Map m2=new HashMap();
-		m2.put(key[0], R.drawable.car_1);
-		m2.put(key[1], "极品飞车2");
-		m2.put(key[2], "40公里续航");
-		m2.put(key[3], "40公里/小时");
-		m2.put(key[4], "2");
-		
-		carList.add(m1);
-		carList.add(m2);
 	}
  
-	protected void initView() {
-		initDataSource();
+	protected void redrawUI() {
 		simpleAdapter=new SimpleAdapter(CarListActivity.this, carList,
 				R.layout.car_list_item, key, new int[] {
 				R.id.item_img,

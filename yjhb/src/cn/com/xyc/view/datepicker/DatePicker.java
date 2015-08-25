@@ -22,15 +22,15 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 	private View mMenuView;
 	private ViewFlipper viewfipper;
 	private Button btn_submit, btn_cancel;
-	private DateNumericAdapter monthAdapter, dayAdapter, yearAdapter;
-	private WheelView year, month, day;
+	private DateNumericAdapter monthAdapter, dayAdapter, yearAdapter,hourAdapter;
+	private WheelView year, month, day,hour;
 	private int mCurYear = 0, mCurMonth = 0, mCurDay = 0;
 	private String[] dateType;
 	private DateTimeSetListener  listener;
-	private int y,m,d;
+	private int y,m,d,h;
 	
 	public interface DateTimeSetListener { 
-		void onDateSet(int cyear, int cmonth, int cday);
+		void onDateSet(int cyear, int cmonth, int cday,int h);
 	}
 	
 	public DatePicker(Activity context,DateTimeSetListener dateTimeSetListener) {
@@ -51,6 +51,7 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 			year = (WheelView) mMenuView.findViewById(R.id.year);
 			month = (WheelView) mMenuView.findViewById(R.id.month);
 			day = (WheelView) mMenuView.findViewById(R.id.day);
+			hour=(WheelView) mMenuView.findViewById(R.id.hour);
 			btn_submit = (Button) mMenuView.findViewById(R.id.submit);
 			btn_cancel = (Button) mMenuView.findViewById(R.id.cancel);
 			btn_submit.setOnClickListener(this);
@@ -59,7 +60,7 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 			OnWheelChangedListener listener = new OnWheelChangedListener() {
 				public void onChanged(WheelView wheel, int oldValue, int newValue) {
 					System.out.println("newValuenewValue="+newValue);
-					updateDays(year, month, day);
+					updateDays(year, month, day,hour);
 
 				}
 			};
@@ -81,16 +82,24 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 
 			yearAdapter = new DateNumericAdapter(context, curYear - 100, curYear+100,
 					100 - 20);
+			
+			hourAdapter= new DateNumericAdapter(context, 9, 18,
+					10);
+			hour.setViewAdapter(hourAdapter);
+			hour.setCurrentItem(1);
+			
 			yearAdapter.setTextType(dateType[0]);
 			year.setViewAdapter(yearAdapter);
 			year.setCurrentItem(100);
 			year.addChangingListener(listener);
 			// day
 
-			updateDays(year, month, day);
+			updateDays(year, month, day,hour);
 			day.setCurrentItem(mCurDay);
-			updateDays(year, month, day);
+			updateDays(year, month, day,hour);
 			day.addChangingListener(listener);
+			
+			hour.addChangingListener(listener);
 
 			viewfipper.addView(mMenuView);
 			viewfipper.setFlipInterval(6000000);
@@ -115,7 +124,7 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 	}
 
 
-	private void updateDays(WheelView year, WheelView month, WheelView day) {
+	private void updateDays(WheelView year, WheelView month, WheelView day,WheelView hour) {
 
 		Calendar calendar = Calendar.getInstance();
 //		calendar.set(Calendar.YEAR,
@@ -135,6 +144,7 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 		y=calendar.get(Calendar.YEAR);
 		m=month.getCurrentItem()+1;
 		d=day.getCurrentItem()+1;
+		h=hour.getCurrentItem()+9;
 //		age = years + "-" + (month.getCurrentItem() + 1) + "-"
 //				+ (day.getCurrentItem() + 1);
 	}
@@ -173,7 +183,7 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 
 	public void onClick(View v) {
 		if(v==btn_submit) {
-			listener.onDateSet(y, m,d);
+			listener.onDateSet(y, m,d,h);
 		}
 		
 		this.dismiss();
