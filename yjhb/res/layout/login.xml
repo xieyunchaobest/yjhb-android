@@ -24,6 +24,7 @@
         android:layout_marginRight="10.0dip"
         android:layout_marginTop="5.0dip"
         android:hint="手机号"
+            android:background="@drawable/mobile_input_bg"
         android:maxLength="16"
         android:paddingLeft="80.0dip"
         android:saveEnabled="true"
@@ -31,15 +32,15 @@
 
     <Button
         android:id="@+id/btn_getautocode"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/login_btn"
-        android:text="获取验证码"
+        android:background="@drawable/btn_sure"
         android:textColor="#FFFFFFFF"
+        android:text="获取验证码"
         android:textSize="16dip" />
 
     <LinearLayout
@@ -58,6 +59,8 @@
             android:layout_marginTop="15.0dip"
             android:layout_weight="1"
             android:hint="验证码"
+               android:paddingLeft="80.0dip"
+            android:background="@drawable/auth_code_input_bg"
             android:maxLength="16"
             android:saveEnabled="true"
             android:singleLine="true" />
@@ -69,10 +72,11 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:layout_weight="2"
-            android:background="@drawable/login_btn"
-            android:text="确定"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ok_small"
             android:textColor="#FFFFFFFF"
             android:gravity="center"
+            android:text="确 定"
             android:layout_gravity="center"
             android:textSize="16dip" />
     </LinearLayout>

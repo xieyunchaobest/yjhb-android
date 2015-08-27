@@ -89,6 +89,7 @@ public class MapActivity extends BaseActivity {
 					button.setBackgroundResource(R.drawable.popup);
 					
 					button.setText("ÎÒÒª×â³µ");
+					button.setBackgroundResource(R.drawable.btn_map_sign);
 					button.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 //							marker.setIcon(bd);

@@ -32,7 +32,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="@drawable/bottom1"
+                  android:background="@drawable/tool_bar"
                 android:gravity="bottom"
                 android:orientation="horizontal"
                  >
@@ -41,28 +41,28 @@
                     android:id="@+id/main_tab_addExam"
                     style="@style/MMTabButton"
                     android:layout_weight="1.0"    
-                    android:drawableTop="@drawable/bg_checkbox_icon_menu_0"
+                    android:drawableTop="@drawable/tool_btn_rent"
                     android:text="租车" /> 
 
                 <RadioButton
                     android:id="@+id/main_tab_myExam"
                     style="@style/MMTabButton"
                     android:layout_weight="1.0"
-                    android:drawableTop="@drawable/bg_checkbox_icon_menu_1"
+                    android:drawableTop="@drawable/tool_btn_buy"
                     android:text="购车" />
 
                 <RadioButton
                     android:id="@+id/main_tab_message"
                     style="@style/MMTabButton"
                     android:layout_weight="1.0"
-                    android:drawableTop="@drawable/bg_checkbox_icon_menu_2"
+                    android:drawableTop="@drawable/tool_btn_order"
                     android:text="订单" />
 
                 <RadioButton
                     android:id="@+id/main_tab_settings"
                     style="@style/MMTabButton"
                     android:layout_weight="1.0"   
-                    android:drawableTop="@drawable/bg_checkbox_icon_menu_3"
+                    android:drawableTop="@drawable/tool_btn_personal"
                     android:text="我的" />
             </RadioGroup>
 

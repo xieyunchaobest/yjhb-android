@@ -13,9 +13,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"
-        bgImage="@drawable/dev_line_bg_common"
-        label="@string/lxkf"
-        android:paddingLeft="10.0dip" />
+        bgImage="@drawable/p_my_mobile"
+        android:paddingLeft="45.0dip"
+        label="@string/lxkf" />
 
     <cn.com.xyc.view.LabelText
         android:id="@+id/elt_wxfx"
@@ -24,9 +24,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="15dp"
-        bgImage="@drawable/dev_line_bg_common"
+        bgImage="@drawable/p_desc"
         label="@string/wxfx"
-        android:paddingLeft="10.0dip" />
+        android:paddingLeft="45.0dip"  />
 
     <cn.com.xyc.view.LabelText
         android:id="@+id/elt_dqbb"
@@ -35,9 +35,31 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="15dp"
-        bgImage="@drawable/dev_line_bg_common"
+        bgImage="@drawable/p_share"
         label="@string/dqbb"
-        android:paddingLeft="10.0dip" />
+        android:paddingLeft="45.0dip" />
+    
+     <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_call"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        bgImage="@drawable/p_call"
+        label="@string/dqbb"
+        android:paddingLeft="45.0dip"  />
+     
+      <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_question"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        bgImage="@drawable/p_question"
+        label="@string/dqbb"
+        android:paddingLeft="45.0dip" />
  
     <LinearLayout
         android:layout_width="wrap_content"
@@ -51,7 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@drawable/login_btn"
+            android:background="@drawable/btn_quit"
+            android:text="退出登录"
             android:textColor="#FFFFFFFF"
             android:textSize="16dip" />
     </LinearLayout>
