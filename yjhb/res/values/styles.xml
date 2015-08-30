@@ -10,4 +10,10 @@
         <item name="android:background">@drawable/titlebar_bg</item>
     </style>
     
+    <style name="process_dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    
 </resources>

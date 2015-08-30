@@ -111,7 +111,7 @@
         android:id="@+id/txt_fee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="费用信息[5元手续费+30元/小时*3小时]" />
+        android:text="费用[0元手续费+0元/h*0h+0元异店换车费]" />
     <cn.com.xyc.view.LabelText
         android:id="@+id/elt_clxh_fee"
         android:layout_width="fill_parent"

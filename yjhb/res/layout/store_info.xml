@@ -10,33 +10,33 @@
     <cn.com.xyc.view.LabelText
         android:id="@+id/elt_mdmc"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
-        bgImage="@drawable/dev_line_bg_common"
+        bgImage="@drawable/input_bg"
         label="@string/mdmc"
         android:paddingLeft="10.0dip" />
 
     <cn.com.xyc.view.LabelText
         android:id="@+id/elt_mdwz"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
-        bgImage="@drawable/dev_line_bg_common"
+        bgImage="@drawable/input_bg"
         label="@string/mdwz"
         android:paddingLeft="10.0dip" />
 
     <cn.com.xyc.view.LabelText
         android:id="@+id/elt_cclx"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
-        bgImage="@drawable/dev_line_bg_common"
+        bgImage="@drawable/input_bg"
         label="@string/cclx"
         android:paddingLeft="10.0dip" />
 
@@ -52,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@drawable/login_btn"
+            android:text="立即租车"
+            android:background="@drawable/btn_sure"
             android:textColor="#FFFFFFFF"
             android:textSize="16dip" />
     </LinearLayout>

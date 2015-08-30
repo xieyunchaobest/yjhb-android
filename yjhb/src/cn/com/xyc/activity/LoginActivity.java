@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class LoginActivity extends BaseActivity {
 			initData();
 			initView();
 			registerListener();
+			ActivityUtil.getInstance().addActivity(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,7 +54,8 @@ public class LoginActivity extends BaseActivity {
 		etMobileNo=(EditText)findViewById(R.id.login_mobile);
 		btnLogin=(Button) findViewById(R.id.btn_ok);
 		etAutoCode=(EditText)findViewById(R.id.login_authcode);
-		
+		etMobileNo.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+		etAutoCode.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 	}
 
 	public void initData() {
@@ -136,12 +139,12 @@ public class LoginActivity extends BaseActivity {
 			switch (msg.what) {
 			case 1: {
 				redrawUI();
+				break;
 			}
 			case 2: {
 				saveLocal();
 				//ActivityUtil.clearLogin();
 				finish();
-
 			}
 				if (mProgressDialog != null)
 					mProgressDialog.dismiss();// 当接到消息时，关闭进度条

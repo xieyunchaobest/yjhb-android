@@ -89,6 +89,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/title" >
         </activity>
+        <activity
+            android:name="cn.com.xyc.activity.RentOrderConfirmActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/title" >
+        </activity>
+        <activity
+            android:name="cn.com.xyc.activity.BuyConfirmActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/title" >
+        </activity>
+        
+        
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >

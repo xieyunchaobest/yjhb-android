@@ -1,10 +1,8 @@
 package cn.com.xyc.activity;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +21,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import cn.com.xyc.R;
 import cn.com.xyc.util.ActivityUtil;
@@ -65,6 +66,7 @@ public class CarListActivity  extends BaseListActivity{
 
 			refreshListView = (PullToRefreshListView) getListView();
 			registerListener();
+			super.showProcessDialog(false);
 			getCars();
 			ActivityUtil.getInstance().addActivity(this);
 		}catch(Exception e) {
@@ -80,7 +82,7 @@ public class CarListActivity  extends BaseListActivity{
 			public void run() {
 				for(int i=0;i<carList.size();i++) {
 					Map m=(Map)carList.get(i);
-					String imgAddr=(String)m.get("imgAddr");
+					String imgAddr=(String)m.get(key[0]);
 					try {
 						URL url = new URL(imgAddr);
 						HttpURLConnection connection = (HttpURLConnection) url
@@ -89,6 +91,7 @@ public class CarListActivity  extends BaseListActivity{
 						connection.connect();
 						InputStream input = connection.getInputStream();
 						Bitmap myBitmap = BitmapFactory.decodeStream(input);
+						input.close();
 						m.put("item_img", myBitmap);
 					}catch(Exception e) {
 						e.printStackTrace();
@@ -100,9 +103,6 @@ public class CarListActivity  extends BaseListActivity{
 			}
 		});
 mThread.start();
-
-
-	
 	}
 	
 	public void getCars() {
@@ -133,10 +133,10 @@ mThread.start();
 			switch (msg.what) {
 			case 1: {
 				initDataSource();
+				break;
 			}
 			case 2: {
 				redrawUI();
-
 			}
 				if (mProgressDialog != null)
 					mProgressDialog.dismiss();// 当接到消息时，关闭进度条
@@ -158,8 +158,8 @@ mThread.start();
 			Double price=((BigDecimal)m.get("price")).doubleValue();
 			String imgAddr=(String)m.get("imgAddr");
             
-			Map mm=new HashMap();
-			mm.put(key[0], R.drawable.car_1);
+			Map mm=new HashMap(); 
+			mm.put(key[0], imgAddr);
 			mm.put(key[1], model);
 			mm.put(key[2], kmAmount+"公里");
 			mm.put(key[3], price+"元/小时");
@@ -167,7 +167,7 @@ mThread.start();
 			
 			carList.add(mm);
 		}
-		
+		loadImage();
 	}
  
 	protected void redrawUI() {
@@ -180,8 +180,22 @@ mThread.start();
 				R.id.item_id});
 		refreshListView.setDivider(new ColorDrawable(Color.GRAY));  
 		refreshListView.setDividerHeight(1);
+		
 		//refreshListView.setBackgroundColor(R.drawable.background);
 		setListAdapter(simpleAdapter);
+		refreshListView.post(new Runnable(){
+		    public void run(){
+		    	for(int i=0;i<refreshListView.getChildCount();i++) {
+		    		if(i==0)continue;
+		    		RelativeLayout ll=(RelativeLayout)refreshListView.getChildAt(i);
+					//RelativeLayout lla=(RelativeLayout)ll.findViewById(R.id.lay_item);
+					RelativeLayout rl=(RelativeLayout)ll.findViewById(R.id.lay_img);
+					ImageView iv=(ImageView)rl.findViewById(R.id.item_img);
+					iv.setImageBitmap((Bitmap)((Map)carList.get(i-1)).get("item_img"));
+				} 
+		 
+		    }
+		});
 		
 	}
 	
@@ -196,6 +210,10 @@ mThread.start();
 					long arg3) {
 				Intent intent=getIntent();
 				int flag=intent.getIntExtra("fromFlag",0);
+				for(int i=0;i<carList.size();i++) {
+					Map m=(Map)carList.get(i);
+					m.put("item_img", null);
+				}
 				intent.putExtra("car",  (HashMap)carList.get(arg2-1));
 				setResult(flag,intent);
 

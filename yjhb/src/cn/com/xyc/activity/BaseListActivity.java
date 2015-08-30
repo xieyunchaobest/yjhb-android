@@ -9,6 +9,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -50,6 +51,22 @@ public class BaseListActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+	}
+	
+	public void showProcessDialog(final boolean finishActivity) {
+		mProgressDialog = new Dialog(this,
+				R.style.process_dialog);//创建自定义进度条
+		mProgressDialog.setContentView(R.layout.progress_dialog);//自定义进度条的内容
+		mProgressDialog.setCancelable(true);
+		mProgressDialog
+				.setOnCancelListener(new android.content.DialogInterface.OnCancelListener() {
+					public void onCancel(DialogInterface dialog) {
+						isCancel=true;
+						if(finishActivity)finish();
+					}
+				});
+		mProgressDialog.show();//显示进度条
+	
 	}
 	
 	 

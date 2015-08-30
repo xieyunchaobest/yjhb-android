@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/item_model"
             android:layout_marginLeft="10dip"
+            android:layout_marginTop="8dip"
             android:text="合同西桥店" 
              />
         
@@ -64,7 +65,8 @@
             android:id="@+id/item_fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/item_model"
+            android:layout_toRightOf="@+id/item_mdmc"
+            android:layout_alignTop="@+id/item_mdmc"
             android:layout_below="@+id/item_model"
             android:layout_marginLeft="20dip"
             android:text="690元"  />

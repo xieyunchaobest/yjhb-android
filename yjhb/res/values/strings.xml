@@ -23,6 +23,7 @@
     <string name="wxfx">微信分享</string>
     <string name="dqbb">当前版本</string>
 	<string name="exit">退出登录</string>
+	<string name="loading">正在加载</string>
 
     <style name="MMTabButton">
 		<item name="android:textSize">12.0dip</item>

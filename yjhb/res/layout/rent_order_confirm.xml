@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:id="@+id/root"
+     >
+
+    <include layout="@layout/title" />
+    
+
+    <LinearLayout android:id="@+id/lay_get"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+    
+     <TextView
+        android:id="@+id/txt_get"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取车信息" />
+         
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_mdmc"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        bgImage="@drawable/group_select_top"
+        label="@string/mdmc"
+        android:paddingLeft="10.0dip" />
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_time"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_mid"
+        label="@string/ycsj"
+        android:paddingLeft="10.0dip" />
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_clxh"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_bottom"
+        label="@string/clxh"
+        android:paddingLeft="10.0dip" />
+    </LinearLayout>
+    
+    
+    <LinearLayout android:id="@+id/lay_return"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:layout_marginTop="15dip"
+    android:orientation="vertical" >
+    
+     <TextView
+        android:id="@+id/txt_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="还车信息" />
+         
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_mdmc_return"
+        android:layout_width="fill_parent"
+       android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        bgImage="@drawable/group_select_top"
+        label="@string/mdmc"
+        android:paddingLeft="10.0dip" />
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_time_return"
+        android:layout_width="fill_parent"
+       android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_mid"
+        label="@string/hcsj"
+        android:paddingLeft="10.0dip" />
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_clxh_return"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_bottom"
+        label="@string/clxh"
+        android:paddingLeft="10.0dip" />
+    </LinearLayout>
+    
+     <LinearLayout android:id="@+id/lay_fee"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:layout_marginTop="15dip"
+    android:orientation="vertical" >
+     
+     <TextView
+        android:id="@+id/txt_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="费用[0元手续费+0元/h*0h+0元异店换车费]" />
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_clxh_fee"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/input_bg"
+        label="@string/zfy"
+        android:paddingLeft="10.0dip" />
+    
+    </LinearLayout>
+    
+     <LinearLayout 
+    android:orientation="horizontal" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_gravity="center_horizontal"> 
+   <Button
+        android:id="@+id/btn_submit_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_sure"
+        android:textColor="#FFFFFFFF"
+        android:text="确 认"
+        android:textSize="16dip" />
+  </LinearLayout>  
+
+</LinearLayout>

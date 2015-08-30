@@ -3,7 +3,6 @@ package cn.com.xyc.activity;
 
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,8 +18,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.view.Window;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost;
@@ -47,6 +46,7 @@ public class MainActivity extends TabActivity {
 	Result res=null;
 	
 	RadioGroup radioGroup=null;
+	RadioButton main_tab_settings;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,14 +115,12 @@ public class MainActivity extends TabActivity {
 	
     }
     
-    public void initView() {
-    	main_tab_new_message=(TextView) findViewById(R.id.main_tab_new_message);
-        main_tab_new_message.setVisibility(View.VISIBLE);
-        main_tab_new_message.setText("10");
+    public void initView() { 
         
         tabHost=this.getTabHost();
         TabHost.TabSpec spec;
         Intent intent;
+        main_tab_settings=(RadioButton)findViewById(R.id.main_tab_settings);
         
         intent=new Intent().setClass(this, MapActivity.class);
         spec=tabHost.newTabSpec("”ŒΩ›ª¨∞Â").setIndicator("”ŒΩ›ª¨∞Â").setContent(intent);
@@ -163,7 +161,17 @@ public class MainActivity extends TabActivity {
 		}
 	};
 	
-    
+    public void logout() {
+    	tabHost.setCurrentTabByTag("”ŒΩ›ª¨∞Â");
+    	main_tab_settings.setChecked(false);
+    	tabHost.setCurrentTabByTag("”ŒΩ›ª¨∞Â");
+    	CacheProcess c=new CacheProcess();
+    	try {
+			c.save(this,Constant.LOCAL_STORE_KEY_USER, new com.alibaba.fastjson.JSONObject());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    }
     
     
 	protected void redrawComponent(Message msg) {

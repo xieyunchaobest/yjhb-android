@@ -29,5 +29,11 @@
         android:paddingLeft="5dip"
         android:paddingTop="3dp"
         android:textSize="14dip" />
+    
+    <TextView
+        android:id="@+id/item_busroute"
+        android:layout_width="0dp"
+        android:layout_height="0dp"  />
+    
 
 </RelativeLayout>

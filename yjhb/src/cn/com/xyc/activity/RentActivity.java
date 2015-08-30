@@ -1,5 +1,10 @@
 package cn.com.xyc.activity;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Intent;
@@ -9,11 +14,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.xyc.R;
+import cn.com.xyc.util.ActivityUtil;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
-import cn.com.xyc.util.JsonUtil;
 import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.view.LabelText;
 import cn.com.xyc.view.datepicker.DatePicker;
@@ -32,6 +38,8 @@ public class RentActivity extends BaseActivity {
 	private LabelText ltretunmodel;
 	private LabelText lttotalfee;
 	
+	private TextView tvtxt_fee;
+	
 	private int STORE_GET_CODE=0;
 	private int STORE_RETURN_CODE=1;
 	
@@ -43,7 +51,11 @@ public class RentActivity extends BaseActivity {
 	Map storegetmap=null;
 	String getTime="";
 	String returnTime="";
+	Map getcaremap=null;
 	
+	Map feeMap=new HashMap();
+	Map getMap=new HashMap();
+	Map returnMap=new HashMap();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +63,18 @@ public class RentActivity extends BaseActivity {
 			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.rent);
+			intent=getIntent();
+			Object store=intent.getSerializableExtra("storeData");//from page StoreInfo
+			if(store!=null) {
+				super.setTitleBar("租车",View.VISIBLE,View.GONE,View.INVISIBLE,false);
+			}else {
+				super.setTitleBar("租车",View.GONE,View.GONE,View.INVISIBLE,false);
+			}
+			
 			initView();
 			registerListener();
-			super.setTitleBar("租车",View.GONE,View.GONE,View.INVISIBLE,false);
-			isLogin();
+			ActivityUtil.getInstance().addActivity(this);
+		//	isLogin();
 			 
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -72,15 +92,83 @@ public class RentActivity extends BaseActivity {
 		ltgetmodel=(LabelText)findViewById(R.id.elt_clxh);
 		ltretunmodel=(LabelText)findViewById(R.id.elt_clxh_return);
 		lttotalfee=(LabelText)findViewById(R.id.elt_clxh_fee);
-		lttotalfee.getValueText().setText("65元");
+		lttotalfee.getValueText().setText("0元");
+		
+		tvtxt_fee=(TextView)findViewById(R.id.txt_fee);
+		
+	
+		Object store=intent.getSerializableExtra("storeData");//from page StoreInfo
+		if(store!=null) {
+			storegetmap=(Map)store;
+			String storeName=(String)storegetmap.get("item_name");
+			ltgetmd.getValueText().setText(storeName);
+			getMap.put("storeName", storeName);
+		}
+		
 	}
 	
+	
+	public void calcPrice() {
+		double bsxf=5.00d;//基本手续费
+		double syf=0.0d;//使用费
+		double mdsxf=0d;//门店手续费，取车和换车门店不同时
+		Double totalfee=0d;
+		double sinfee=0d;
+		int useTime=0;
+		if(!StringUtil.isBlank(ltgetmd.getValueText().getText().toString()) && 
+				!StringUtil.isBlank(ltgetdate.getValueText().getText().toString()) && 
+				!StringUtil.isBlank(ltgetmodel.getValueText().getText().toString()) &&
+				!StringUtil.isBlank(ltreturnmd.getValueText().getText().toString()) &&
+			 !StringUtil.isBlank(ltreturndate.getValueText().getText().toString())
+				) {
+			if(!ltgetmd.getValueText().getText().toString().equals(ltreturnmd.getValueText().getText().toString())) {
+				mdsxf=5.00d;
+			}
+			
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date getDate=null;
+			Date returnDate=null;
+			try {
+				getDate = df.parse(getTime);
+				returnDate = df.parse(returnTime);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			useTime=(int) ((returnDate.getTime()-getDate.getTime())/(60 * 60 * 1000));
+			sinfee=Double.parseDouble(((String)getcaremap.get("item_fee")).replaceAll("元/小时", ""));
+			syf=sinfee*useTime;
+			System.out.println("useTime======"+useTime);
+			totalfee=mdsxf+bsxf+syf;
+			if(getTime.equals(returnTime))totalfee=0d;
+			if(totalfee<0)totalfee=0d;
+		}
+		feeMap.put("bsxf", bsxf);
+		feeMap.put("sinfee", sinfee);
+		feeMap.put("useTime", useTime);
+		feeMap.put("mdsxf", mdsxf);
+		feeMap.put("totalfee", totalfee);
+		tvtxt_fee.setText("费用["+bsxf+"元手续费+"+sinfee+"元/h*"+useTime+"h+"+mdsxf+"元异店换车费]");
+		lttotalfee.getValueText().setText(String.valueOf(totalfee));
+	}
 	
 	protected void registerListener() {
 		btnRent.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				 if(validate()==false) return ;
+				 intent = new Intent();
+				 intent.setClass(RentActivity.this, RentOrderConfirmActivity.class);
+				 HashMap m=new HashMap();
+				 m.put("getMap", getMap);
+				 m.put("returnMap", returnMap);
+				 m.put("feeMap", feeMap); 
+				
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("info", m);
+				intent.putExtras(bundle);
+				
+				startActivity(intent);	
 			}
 		});
 		
@@ -112,6 +200,8 @@ public class RentActivity extends BaseActivity {
 								int day,int h) {
 							getTime=year+"-"+(month>=10?month:"0"+month)+"-"+day+" "+(h>=10?h:"0"+h)+":00";
 							ltgetdate.getValueText().setText(getTime);
+							getMap.put("date", getTime);
+							calcPrice();
 						}
 						 
 					});
@@ -127,6 +217,8 @@ public class RentActivity extends BaseActivity {
 							int day,int hour) {
 						returnTime=year+"-"+(month>=10?month:"0"+month)+"-"+day+" "+(hour>=10?hour:"0"+hour)+":00";
 						ltreturndate.getValueText().setText(returnTime);
+						returnMap.put("date", returnTime);
+						calcPrice();
 					}
 					 
 				});
@@ -171,27 +263,39 @@ public class RentActivity extends BaseActivity {
 			startActivity(new Intent(RentActivity.this, LoginActivity.class));
 		}
 	}
+	
 	 @Override
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		 if(data!=null) {
 			 if(requestCode==STORE_GET_CODE){
 		        	Bundle b=data.getExtras();
 		        	storegetmap=(Map)b.getSerializable("store");
-		        	
-		        	ltgetmd.getValueText().setText((String)storegetmap.get("item_name"));
+		        	String storeName=(String)storegetmap.get("item_name");
+		        	ltgetmd.getValueText().setText(storeName);
+		        	getMap.put("storeName", storeName);
+		        	calcPrice();
 		        }
 		        else if(requestCode==STORE_RETURN_CODE){
 		        	Bundle b=data.getExtras();
 		        	Map storemap=(Map)b.getSerializable("store");
-		        	ltreturnmd.getValueText().setText((String)storemap.get("item_name"));
+		        	String storeName=(String)storemap.get("item_name");
+		        	ltreturnmd.getValueText().setText(storeName);
+		        	returnMap.put("storeName", storeName);
+		        	calcPrice();
 		        }else if(requestCode==CAR_GET_CODE){
 		        	Bundle b=data.getExtras();
-		        	Map caremap=(Map)b.getSerializable("car");
-		        	ltgetmodel.getValueText().setText((String)caremap.get("item_model"));
+		        	getcaremap=(Map)b.getSerializable("car");
+		        	String carModel=(String)getcaremap.get("item_model");
+		        	ltgetmodel.getValueText().setText(carModel);
+		        	getMap.put("carModel", carModel);
+		        	calcPrice();
 		        }else if(requestCode==CAR_RETURN_CODE){
 		        	Bundle b=data.getExtras();
 		        	Map caremap=(Map)b.getSerializable("car");
-		        	ltretunmodel.getValueText().setText((String)caremap.get("item_model"));
+		        	String carModel=(String)caremap.get("item_model");
+		        	ltretunmodel.getValueText().setText(carModel);
+		        	returnMap.put("carModel", carModel);
+		        	calcPrice();
 		        }
 		 }
 	        
@@ -240,5 +344,12 @@ public class RentActivity extends BaseActivity {
 		 return true;
 	 }
 	 
+	 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		System.out.print("继续继续继续继续继续继续继续");
+		isLogin();
+	}
 	 
 }

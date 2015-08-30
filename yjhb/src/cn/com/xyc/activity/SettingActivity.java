@@ -19,6 +19,8 @@ public class SettingActivity extends BaseActivity {
 	private LabelText ltwxfx;
 	private LabelText ltdqbb;
 	Dialog dialog=null;
+	private Button logoutButton;
+	Dialog logoutdialog=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class SettingActivity extends BaseActivity {
 		ltdqbb=(LabelText)findViewById(R.id.elt_dqbb);
 		ltlxkf.getValueText().setText("10086");
 		ltdqbb.getValueText().setText("1.0");
-		
+		logoutButton=(Button)findViewById(R.id.btn_logout);
 		dialog = new AlertDialog.Builder(this).setIcon(
 			     android.R.drawable.btn_star).setTitle("呼叫").setMessage(
 			     "是否电话联系客服10086").setPositiveButton("是",
@@ -54,9 +56,26 @@ public class SettingActivity extends BaseActivity {
 			    	   dialog.dismiss();
 			    }
 			   }).create();
+		logoutdialog = new AlertDialog.Builder(this).setIcon(
+			     android.R.drawable.btn_star).setTitle("提示").setMessage(
+			     "确定退出当前用户？").setPositiveButton("是",
+			     new OnClickListener() {
 
+			      public void onClick(DialogInterface dialog, int which) {
+			    	  logout();
+			      }
+			     }).setNegativeButton("否", new OnClickListener() {
+
+			    public void onClick(DialogInterface dialog, int which) {
+			    	   dialog.dismiss();
+			    }
+			   }).create();
 	}
 	
+	
+	private void logout() {
+		 ((MainActivity)this.getParent()).logout();
+	}
 	
 	protected void registerListener() {
 		ltlxkf.setOnClickListener(new Button.OnClickListener() {
@@ -65,6 +84,13 @@ public class SettingActivity extends BaseActivity {
 				dialog.show();
 			}
 		});
+		logoutButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				logoutdialog.show();
+			}
+		});
+		
 	}		 
 
 		 

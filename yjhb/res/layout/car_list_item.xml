@@ -54,7 +54,7 @@
             android:id="@+id/item_fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/item_model"
+            android:layout_toRightOf="@+id/item_xh"
             android:layout_below="@+id/item_model"
             android:layout_marginLeft="20dip"
             android:layout_alignTop="@+id/item_xh"
