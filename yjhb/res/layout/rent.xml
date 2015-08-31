@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_sure"
+        android:background="@drawable/btn_sure_o"
         android:textColor="#FFFFFFFF"
         android:text="确 认"
         android:textSize="16dip" />

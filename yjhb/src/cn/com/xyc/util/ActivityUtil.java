@@ -35,7 +35,6 @@ public class ActivityUtil {
         for (Activity activity : activityList) {  
             activity.finish();  
         }  
-        System.exit(0);  
     }  
     
     public static void clearLogin() {

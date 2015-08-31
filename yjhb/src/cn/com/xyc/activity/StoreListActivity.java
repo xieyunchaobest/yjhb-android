@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
 import cn.com.xyc.R;
@@ -84,37 +86,40 @@ public class StoreListActivity  extends BaseListActivity{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				HashMap m=(HashMap)storeList.get(arg2-1);
+				String isOpen=(String)m.get("item_is_open");
+				
+				updateStatInfo(String.valueOf((Integer)m.get("item_id")));
+				if("N".equals(isOpen)) {
+					 Toast.makeText(getApplicationContext(), "该门店暂未开业，请选择其他门店！",
+								Toast.LENGTH_SHORT).show();
+					 return ;
+				}
 				Intent intent=getIntent();
 				int flag=intent.getIntExtra("fromFlag",0);
-				intent.putExtra("store",  (HashMap)storeList.get(arg2-1));
+				intent.putExtra("store",  m);
 				setResult(flag,intent);
 
 				StoreListActivity.this.finish();  
-//				Intent intent = new Intent();
-//				Map m=funcNodeList.get(arg2-1);
-//				String code=(String)m.get("func_node_list_item_code");
-//				if("QXLR".equals(code)){
-//					if("1".equals(isCanDefectInput)) {
-//						intent.setClass(StoreListActivity.this,
-//								DefecAdd1tActivity.class);
-//						startActivity(intent);
-//					}else {
-//						Toast.makeText(getApplicationContext(), "当前时间已超过开业时间+180天，不能录入!", Toast.LENGTH_SHORT).show();
-//					}
-//				}else if("SBLR".equals(code)){
-//					intent.setClass(FuncNodeListActivity.this,
-//							DeviceAdd1tActivity.class);
-//					startActivity(intent);
-//				}else{
-//					intent.setClass(FuncNodeListActivity.this,
-//							SettingActivity.class);
-//					startActivity(intent);
-//				}
 
 			}
 
 		});
 	}
 	
+	
+	public void updateStatInfo(final String storeId) {
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						com.alibaba.fastjson.JSONObject j=new com.alibaba.fastjson.JSONObject();
+						j.put("storeId", storeId);
+						getPostHttpContent("",
+								Constant.METHOD_GET_STORESTATINFO,
+								j.toJSONString());
+					}
+				});
+		mThread.start();
+	}
 
 }

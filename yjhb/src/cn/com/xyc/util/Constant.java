@@ -9,6 +9,8 @@ public class Constant {
 	public static String METHOD_GET_LOCAL_CACHE="client/getLocalCache";
 	public static String METHOD_GET_GET_CARS="client/getCarsByStore";
 	public static String METHOD_GET_ORDERS="client/getOrderList";
+	public static String METHOD_GET_STORESTATINFO="client/getStoreStatInfo";
+	
 	
 	public static String LOCAL_STORE_KEY_USER="USER";
 	public static String LOCAL_STORE_CACHES="CACHES";

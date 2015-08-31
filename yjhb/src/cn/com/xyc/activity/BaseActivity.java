@@ -91,8 +91,8 @@ public class BaseActivity extends Activity {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
-										ActivityUtil.getInstance().exit();
 										finish();
+										ActivityUtil.getInstance().exit();
 										System.exit(0);
 									}
 								})

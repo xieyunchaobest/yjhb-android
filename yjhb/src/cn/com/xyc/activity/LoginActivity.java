@@ -5,6 +5,7 @@ import org.json.JSONException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
@@ -178,5 +179,14 @@ public class LoginActivity extends BaseActivity {
 				});
 		mThread.start();
 	}
+	
+
+	 @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		 if (keyCode == KeyEvent.KEYCODE_BACK) {
+			 LoginActivity.this.finish();
+		 }
+		 return true;
+	 }
 
 }

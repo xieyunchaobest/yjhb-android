@@ -14,7 +14,7 @@ public class DataPub {
 	
 	private List  storeList = new ArrayList ();
 	public String[] storekey = {"item_name", "item_address",
-			"item_id","item_jd","item_wd","item_busroute"};
+			"item_id","item_jd","item_wd","item_busroute","item_is_open"};
 	
 	public List initStoreList(Context ctx ) {
 		CacheProcess c= new CacheProcess();
@@ -32,7 +32,7 @@ public class DataPub {
 				String busRoute=(String)m.get("busRoute");
 				double longitude=((BigDecimal)m.get("longitude")).doubleValue();
 				double latitude=((BigDecimal)m.get("latitude")).doubleValue();
-				
+				String isOpen= (String)m.get("isOpen");
 				
 				Map mm=new HashMap();
 				mm.put(storekey[0], name);
@@ -41,6 +41,7 @@ public class DataPub {
 				mm.put(storekey[3], longitude);
 				mm.put(storekey[4], latitude);
 				mm.put(storekey[5], busRoute);
+				mm.put(storekey[6], isOpen);
 				storeList.add(mm);
 			}
 		} 

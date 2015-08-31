@@ -53,7 +53,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:text="立即租车"
-            android:background="@drawable/btn_sure"
+            android:background="@drawable/btn_sure_o"
             android:textColor="#FFFFFFFF"
             android:textSize="16dip" />
     </LinearLayout>

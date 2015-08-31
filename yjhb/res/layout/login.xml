@@ -38,7 +38,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/btn_sure"
+        android:background="@drawable/btn_sure_o"
         android:textColor="#FFFFFFFF"
         android:text="获取验证码"
         android:textSize="16dip" />

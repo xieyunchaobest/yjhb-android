@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="43dip"
-    android:background="@drawable/title_bg"
+    android:background="@drawable/title_bg_o"
     android:orientation="horizontal" >
     
 <!-- android:src="@drawable/titlebar_img_btn_back" -->
