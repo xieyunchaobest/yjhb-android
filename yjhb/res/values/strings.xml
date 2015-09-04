@@ -24,6 +24,19 @@
     <string name="dqbb">当前版本</string>
 	<string name="exit">退出登录</string>
 	<string name="loading">正在加载</string>
+	<string name="cjwt">常见问题</string>
+	
+	<string name="errcode_success">发送成功</string>
+	<string name="errcode_cancel">发送取消</string>
+	<string name="errcode_deny">发送被拒绝</string>
+	<string name="errcode_unknown">发送返回</string>
+	
+	<string name="soft_update_no">已经是最新版本</string>
+    <string name="soft_update_title">软件更新</string>
+    <string name="soft_update_updatebtn">更新</string>
+    <string name="soft_update_later">稍后更新</string>
+    <string name="soft_updating">正在更新</string>
+    <string name="soft_update_cancel">取消</string>
 
     <style name="MMTabButton">
 		<item name="android:textSize">12.0dip</item>

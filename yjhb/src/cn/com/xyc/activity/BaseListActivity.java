@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.xyc.R;
 import cn.com.xyc.YjhbApp;
+import cn.com.xyc.util.ActivityUtil;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
 import cn.com.xyc.util.Result;
@@ -70,6 +72,7 @@ public class BaseListActivity extends ListActivity {
 	}
 	
 	 
+	
 	public Result getPostHttpContent(String serverName,String method,String parameter) {
 		YjhbApp  app= (YjhbApp)this.getApplication();   
 		HttpClient client = app.getHttpClient(); 
@@ -166,38 +169,39 @@ public class BaseListActivity extends ListActivity {
 		return false;
 	}
 	
-	
 	 @Override
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
 			// TODO Auto-generated method stub
 
-//			if (keyCode == KeyEvent.KEYCODE_BACK) {
-//
-//				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//				builder.setMessage("ï¿½ï¿½È·ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½")
-//						.setCancelable(false)
-//						.setPositiveButton("È·ï¿½ï¿½",
-//								new DialogInterface.OnClickListener() {
-//									public void onClick(DialogInterface dialog,
-//											int id) {
-//										finish();
-//										System.exit(0);
-//									}
-//								})
-//						.setNegativeButton("ï¿½ï¿½ï¿½ï¿½",
-//								new DialogInterface.OnClickListener() {
-//									public void onClick(DialogInterface dialog,
-//											int id) {
-//										dialog.cancel();
-//									}
-//								});
-//				AlertDialog alert = builder.create();
-//				alert.show();
-//				return true;
-//			}
+			if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage("È·¶¨ÍË³öÏµÍ³Âð£¿")
+						.setCancelable(false)
+						.setPositiveButton("È·¶¨",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										finish();
+										ActivityUtil.getInstance().exit();
+										System.exit(0);
+									}
+								})
+						.setNegativeButton("È¡Ïû",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+				return true;
+			}
 
 			return super.onKeyDown(keyCode, event);
 		}
+	 
 	 
 	 
 		public void setTitleBar(String titleText, int leftButtonVisibility,

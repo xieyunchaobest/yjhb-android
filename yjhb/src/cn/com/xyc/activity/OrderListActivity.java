@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import cn.com.xyc.R;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
 import cn.com.xyc.util.Result;
+import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.view.PullToRefreshListView;
 
 import com.alibaba.fastjson.JSON;
@@ -49,12 +51,35 @@ public class OrderListActivity extends BaseListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.order_list);
 		super.setTitleBar("订单",View.GONE,View.GONE,View.INVISIBLE,false);
-		initView();
-		super.showProcessDialog(false);
+		
+		if(isLogin()) {
+			super.showProcessDialog(false);
+			initView();
+			getOrderList();
+		}
 		registerListener();
-		getOrderList();
+		 
 	}
 	
+	public boolean isLogin(){
+		CacheProcess c=new CacheProcess();
+		String cache=c.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_KEY_USER);
+		if(StringUtil.isBlank(cache)) {
+			startActivity(new Intent(OrderListActivity.this, LoginActivity.class));
+			return false;
+		}
+		JSONObject user = JSON.parseObject(cache);  
+		System.out.println("uuuuuuuuuuuuuuu="+cache);
+		if(user!=null && user.containsKey("mobileNo") && !(StringUtil.isBlank(user.getString("mobileNo")))) {
+			return true;
+		}else {
+			startActivity(new Intent(OrderListActivity.this, LoginActivity.class));
+			return false;
+		}
+	}
+	
+	
+ 
 	protected void redrawUI() {
 		simpleAdapter=new SimpleAdapter(OrderListActivity.this, orderList,
 				R.layout.order_list_item, key, new int[] {
@@ -158,35 +183,37 @@ mThread.start();
 	
 
 	
- 
+	 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		System.out.print("继续继续继续继续继续继续继续");
+		initView();
+		getOrderList();
+	}
+	 
 	
  
 	protected void initView() {
 		CacheProcess cache=new CacheProcess();
+		refreshListView = (PullToRefreshListView) getListView();
 		String user=cache.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_KEY_USER);
 		JSONObject json=new JSONObject();
-		json=json.parseObject(user);
-		String mobileNo=json.getString("mobileNo");
-		System.out.println("mobileNomobileNomobileNomobileNo="+mobileNo);
-		reqJson.put("mobileNo", mobileNo);
-		refreshListView = (PullToRefreshListView) getListView();
-		
+		if(!StringUtil.isBlank(user)) {
+			json=json.parseObject(user); 
+			String mobileNo=json.getString("mobileNo");
+			System.out.println("mobileNomobileNomobileNomobileNo="+mobileNo);
+			reqJson.put("mobileNo", mobileNo);
+		}
 		
 	}
 	
  
 
  
-	protected void registerListener() {
-		refreshListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+	 
  
-
-			}
-
-		});
+	protected void registerListener() {
+		 
 	}
 }

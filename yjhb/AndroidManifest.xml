@@ -101,7 +101,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/title" >
         </activity>
-        
+        <activity
+            android:name="cn.com.xyc.wxapi.WXEntryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/title" >
+        </activity>
         
     </application>
 
@@ -152,5 +157,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 </manifest>

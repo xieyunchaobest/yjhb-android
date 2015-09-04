@@ -74,7 +74,7 @@ public class RentActivity extends BaseActivity {
 			initView();
 			registerListener();
 			ActivityUtil.getInstance().addActivity(this);
-		//	isLogin();
+			isLogin();
 			 
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -156,6 +156,7 @@ public class RentActivity extends BaseActivity {
 		btnRent.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+					
 				 if(validate()==false) return ;
 				 intent = new Intent();
 				 intent.setClass(RentActivity.this, RentOrderConfirmActivity.class);
@@ -249,18 +250,20 @@ public class RentActivity extends BaseActivity {
 		});
 	}
 	
-	public void isLogin(){
+	public boolean isLogin(){
 		CacheProcess c=new CacheProcess();
 		String cache=c.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_KEY_USER);
 		if(StringUtil.isBlank(cache)) {
 			startActivity(new Intent(RentActivity.this, LoginActivity.class));
-			return ;
+			return false;
 		}
 		JSONObject user = JSON.parseObject(cache);  
 		System.out.println("uuuuuuuuuuuuuuu="+cache);
 		if(user!=null && user.containsKey("mobileNo") && !(StringUtil.isBlank(user.getString("mobileNo")))) {
+			return true;
 		}else {
 			startActivity(new Intent(RentActivity.this, LoginActivity.class));
+			return false;
 		}
 	}
 	
@@ -271,8 +274,10 @@ public class RentActivity extends BaseActivity {
 		        	Bundle b=data.getExtras();
 		        	storegetmap=(Map)b.getSerializable("store");
 		        	String storeName=(String)storegetmap.get("item_name");
+		        	Integer storeId=(Integer)storegetmap.get("item_id");
 		        	ltgetmd.getValueText().setText(storeName);
 		        	getMap.put("storeName", storeName);
+		        	getMap.put("storeId", storeId);
 		        	calcPrice();
 		        }
 		        else if(requestCode==STORE_RETURN_CODE){
@@ -286,8 +291,10 @@ public class RentActivity extends BaseActivity {
 		        	Bundle b=data.getExtras();
 		        	getcaremap=(Map)b.getSerializable("car");
 		        	String carModel=(String)getcaremap.get("item_model");
+		        	Integer carId=(Integer)getcaremap.get("item_id");
 		        	ltgetmodel.getValueText().setText(carModel);
 		        	getMap.put("carModel", carModel);
+		        	getMap.put("carId",carId);
 		        	calcPrice();
 		        }else if(requestCode==CAR_RETURN_CODE){
 		        	Bundle b=data.getExtras();
@@ -304,6 +311,7 @@ public class RentActivity extends BaseActivity {
 	 
 	 
 	 public boolean validate() {
+		if( isLogin()==false)return false;;
 		 if(StringUtil.isBlank(ltgetmd.getValueText().getText().toString())) {
 			 Toast.makeText(getApplicationContext(), "请选择门店名称！",
 						Toast.LENGTH_SHORT).show();
@@ -349,7 +357,7 @@ public class RentActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		System.out.print("继续继续继续继续继续继续继续");
-		isLogin();
+		//isLogin();
 	}
 	 
 }

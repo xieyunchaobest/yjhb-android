@@ -29,16 +29,7 @@
         label="@string/wxfx"
         android:paddingLeft="45.0dip"  />
 
-    <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_dqbb"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="15dp"
-        bgImage="@drawable/p_share"
-        label="@string/dqbb"
-        android:paddingLeft="45.0dip" />
+    
     
      <cn.com.xyc.view.LabelText
         android:id="@+id/elt_call"
@@ -59,6 +50,17 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="15dp"
         bgImage="@drawable/p_question"
+        label="@string/cjwt"
+        android:paddingLeft="45.0dip" />
+      
+      <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_dqbb"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        bgImage="@drawable/p_share"
         label="@string/dqbb"
         android:paddingLeft="45.0dip" />
  

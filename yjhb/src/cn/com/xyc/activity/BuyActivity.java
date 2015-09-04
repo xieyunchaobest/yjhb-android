@@ -45,7 +45,7 @@ public class BuyActivity extends BaseActivity {
 			super.setTitleBar("¹º³µ",View.GONE,View.GONE,View.INVISIBLE,false);
 			initView();
 			registerListener();
-//			isLogin();
+			isLogin();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -186,6 +186,6 @@ public class BuyActivity extends BaseActivity {
 		@Override
 		protected void onResume() {
 			super.onResume();
-			isLogin();
+			//isLogin();
 		}
 }

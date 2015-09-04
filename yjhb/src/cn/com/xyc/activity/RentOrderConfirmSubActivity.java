@@ -21,18 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.xyc.R;
 import cn.com.xyc.util.ActivityUtil;
-import cn.com.xyc.util.CacheProcess;
-import cn.com.xyc.util.Constant;
-import cn.com.xyc.util.Result;
 import cn.com.xyc.util.SignUtils;
 import cn.com.xyc.view.LabelText;
 import cn.com.xyc.vo.PayResult;
 
-import com.alibaba.fastjson.JSONObject;
 import com.alipay.sdk.app.PayTask;
 
-public class RentOrderConfirmActivity extends BaseActivity {
-	private Button btn_submit_order;
+public class RentOrderConfirmSubActivity extends BaseActivity {
 	private LabelText ltgetmd;//取车门店
 	private LabelText ltreturnmd;//门店
 	private LabelText ltgetdate;
@@ -54,11 +49,11 @@ public class RentOrderConfirmActivity extends BaseActivity {
 	Map returnMap=null;
 	
 	// 商户PID
-	public static final String PARTNER = Constant.PARTNER;
+	public static final String PARTNER = "2088021385295054";
 	// 商户收款账号
-	public static final String SELLER = Constant.SELLER;
+	public static final String SELLER = "huanwangkejigongsi@163.com";
 	// 商户私钥，pkcs8格式
-	public static final String RSA_PRIVATE = Constant.RSA_PRIVATE;
+	public static final String RSA_PRIVATE = "MIICXQIBAAKBgQCqsYsUMU2CWhzO5nBAgCAAyFw3jRUAWhKfREu3OzrwREgk7uHcCY5s0hpOsvUGIyUcIdxsVolohHyRZPtVNJTEW3j7Ak/p5YPmpMDeZ/OIQFcEVGhISfPJh6PDhz6r3YxaKQ3y2BnZjZm+1nU/m9YbUn8LdtJTHwLiukpet0axHQIDAQABAoGAAOSy/KURacg89FxCZCQHhtmFmgjT/k96X3kFCG137n/8/Kx/ZB5sr2ceGiFXpPOUIySOOcbuKyzeVgh4REblLGu4e8LvmaUdX3Akq+8XkSd6fgBCPwoPofJKYytp8iC9e0DdKpqThWioOtGeZDynkJO0/IPETsincOjVmP8h+4ECQQDg3+bsWl+kD3PS2W5N8e54XnilIyc/gJJ4MGgi3Qr9KrZmOXF47JD8LXWfKOQCY5m0uR6OIr+0aJtL3setsYK9AkEAwlHQmctPgaDRONG8Z//sl7i/Xnqk6poFHKLHwxUYhxw7woRL04PfMufTZ6eFXGTmK+gXoqkxrB03jWOBmCb94QJBALZ19jEgwymjQB99PPsRqqUQQmP7ugTUlgPfgx+GqzvwRD99rIypppp3aFDUJO2rUzRIYHqDx3jix98vzGUq+yECQQCqUI02DvWLl0lptKKewLg8rufERlh/aylp1N6jhLzvxvY14kCXjfC2LGylYDXKKoF3IEB/CC6KPT1whjOTCTHhAkB1D44y2ZWExWbvF1fKIYktNE6o0D+0LF/uMKdC8lMNUcRI3ivkKrn7NUCfXBrXwExg2m4ZvOMvA6PmM7jIoOs4";
 	// 支付宝公钥
 	public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqsYsUMU2CWhzO5nBAgCAAyFw3jRUAWhKfREu3OzrwREgk7uHcCY5s0hpOsvUGIyUcIdxsVolohHyRZPtVNJTEW3j7Ak/p5YPmpMDeZ/OIQFcEVGhISfPJh6PDhz6r3YxaKQ3y2BnZjZm+1nU/m9YbUn8LdtJTHwLiukpet0axHQIDAQAB";
 
@@ -66,17 +61,14 @@ public class RentOrderConfirmActivity extends BaseActivity {
 	private static final int SDK_PAY_FLAG = 1;
 	private static final int SDK_CHECK_FLAG = 2;
 	
-	Result response=null;
-	com.alibaba.fastjson.JSONObject reqJson=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
 			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			super.onCreate(savedInstanceState);
-			setContentView(R.layout.rent_order_confirm);
+			setContentView(R.layout.rent_order_confirm_sub);
 			super.setTitleBar("订单确认",View.VISIBLE,View.GONE,View.INVISIBLE,false);
 			initView();
-			registerListener();
 			ActivityUtil.getInstance().addActivity(this);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -86,7 +78,6 @@ public class RentOrderConfirmActivity extends BaseActivity {
 	
 	
 	public void initView() {
-		btn_submit_order=(Button)findViewById(R.id.btn_submit_order);
 		ltgetmd=(LabelText)findViewById(R.id.elt_mdmc);
 		ltreturnmd=(LabelText)findViewById(R.id.elt_mdmc_return);
 		ltgetdate=(LabelText)findViewById(R.id.elt_time);
@@ -122,32 +113,11 @@ public class RentOrderConfirmActivity extends BaseActivity {
 	}
 	
  
-	protected void registerListener() {
-		btn_submit_order.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				  //pay();
-				createOrder();
-			}
-		});
-		 
-	}
-	
+ 
 	
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case 3: {
-				int code=response.resultCode;
-				if(code==1) {
-					pay();
-				}else {
-					Toast.makeText(RentOrderConfirmActivity.this, "创建订单失败！",
-							Toast.LENGTH_SHORT).show();
-				}
-				break;
-			}
-			
 			case SDK_PAY_FLAG: {
 				PayResult payResult = new PayResult((String) msg.obj);
 				
@@ -158,18 +128,18 @@ public class RentOrderConfirmActivity extends BaseActivity {
 
 				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
 				if (TextUtils.equals(resultStatus, "9000")) {
-					Toast.makeText(RentOrderConfirmActivity.this, "支付成功",
+					Toast.makeText(RentOrderConfirmSubActivity.this, "支付成功",
 							Toast.LENGTH_SHORT).show();
 				} else {
 					// 判断resultStatus 为非“9000”则代表可能支付失败
 					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
 					if (TextUtils.equals(resultStatus, "8000")) {
-						Toast.makeText(RentOrderConfirmActivity.this, "支付结果确认中",
+						Toast.makeText(RentOrderConfirmSubActivity.this, "支付结果确认中",
 								Toast.LENGTH_SHORT).show();
 
 					} else {
 						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-						Toast.makeText(RentOrderConfirmActivity.this, "支付失败",
+						Toast.makeText(RentOrderConfirmSubActivity.this, "支付失败",
 								Toast.LENGTH_SHORT).show();
 
 					}
@@ -177,7 +147,7 @@ public class RentOrderConfirmActivity extends BaseActivity {
 				break;
 			}
 			case SDK_CHECK_FLAG: {
-				Toast.makeText(RentOrderConfirmActivity.this, "检查结果为：" + msg.obj,
+				Toast.makeText(RentOrderConfirmSubActivity.this, "检查结果为：" + msg.obj,
 						Toast.LENGTH_SHORT).show();
 				break;
 			}
@@ -191,7 +161,7 @@ public class RentOrderConfirmActivity extends BaseActivity {
 	 * call alipay sdk pay. 调用SDK支付
 	 * 
 	 */
-	public void pay() {
+	public void pay(View v) {
 		// 订单
 		String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
 
@@ -213,7 +183,7 @@ public class RentOrderConfirmActivity extends BaseActivity {
 			@Override
 			public void run() {
 				// 构造PayTask 对象
-				PayTask alipay = new PayTask(RentOrderConfirmActivity.this);
+				PayTask alipay = new PayTask(RentOrderConfirmSubActivity.this);
 				// 调用支付接口，获取支付结果
 				String result = alipay.pay(payInfo);
 
@@ -240,7 +210,7 @@ public class RentOrderConfirmActivity extends BaseActivity {
 			@Override
 			public void run() {
 				// 构造PayTask 对象
-				PayTask payTask = new PayTask(RentOrderConfirmActivity.this);
+				PayTask payTask = new PayTask(RentOrderConfirmSubActivity.this);
 				// 调用查询接口，获取查询结果
 				boolean isExist = payTask.checkAccountIfExist();
 
@@ -290,7 +260,7 @@ public class RentOrderConfirmActivity extends BaseActivity {
 		orderInfo += "&total_fee=" + "\"" + price + "\"";
 
 		// 服务器异步通知页面路径
-		orderInfo += "&notify_url=" + "\"" + Constant.NotifyURL
+		orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm"
 				+ "\"";
 
 		// 服务接口名称， 固定值
@@ -335,38 +305,6 @@ public class RentOrderConfirmActivity extends BaseActivity {
 		key = key + r.nextInt();
 		key = key.substring(0, 15);
 		return key;
-	}
-	
-	
-	public void readyParameter() {
-		reqJson=new com.alibaba.fastjson.JSONObject();
-		reqJson.put("tradeType", "R");
-		reqJson.put("out_trade_no", getOutTradeNo());
-		CacheProcess c=new CacheProcess();
-		String mobileNo=c.getMobileNo(this);
-		reqJson.put("mobileNo", mobileNo);
-		reqJson.put("carId", (Integer)getMap.get("carId"));
-		
-		reqJson.put("storeId", (Integer)getMap.get("storeId"));
-		reqJson.put("totalFee", (Double)feeMap.get("totalfee"));
-	}
-	
-	public void createOrder() {
-		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-			@Override
-			public void run() {
-				readyParameter();
-				response = getPostHttpContent("",
-						Constant.METHOD_CREATE_ORDER,
-						reqJson.toJSONString());
-				if (handleError(response) == true)
-					return;
-				Message m = new Message();
-				m.what = 3;
-				mHandler.sendMessage(m);
-			}
-		});
-mThread.start();
 	}
 
 	/**

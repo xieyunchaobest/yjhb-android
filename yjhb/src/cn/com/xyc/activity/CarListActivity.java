@@ -152,7 +152,7 @@ mThread.start();
 				java.util.HashMap.class);
 		for(int i=0;i<list.size();i++) {
 			Map m=(Map)list.get(i);
-			Integer sid=(Integer)m.get("Id");
+			Integer sid=(Integer)m.get("id");
 			String model=(String)m.get("model");
 			Integer kmAmount=(Integer)m.get("kmCount");
 			Double price=((BigDecimal)m.get("price")).doubleValue();
