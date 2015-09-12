@@ -74,7 +74,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
     				SendMessageToWX.Req req = new SendMessageToWX.Req();
     				req.transaction = buildTransaction("img");
     				req.message = msg;
-    				req.scene = SendMessageToWX.Req.WXSceneSession;
+    				req.scene = SendMessageToWX.Req.WXSceneTimeline;
     				
     				api.sendReq(req);
     				
@@ -102,7 +102,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 	@Override
 	public void onResp(BaseResp resp) {
 		int result = 0;
-		
+		System.out.println("eeeeeeeeeeeeeeee");
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			result = R.string.errcode_success;
@@ -124,7 +124,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 
 	@Override
 	public void onReq(BaseReq arg0) {
-		
+		System.out.println("FFFFFFFFFFF");
 	}
 	
   

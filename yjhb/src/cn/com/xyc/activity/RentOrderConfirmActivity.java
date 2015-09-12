@@ -60,11 +60,13 @@ public class RentOrderConfirmActivity extends BaseActivity {
 	// 商户私钥，pkcs8格式
 	public static final String RSA_PRIVATE = Constant.RSA_PRIVATE;
 	// 支付宝公钥
-	public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqsYsUMU2CWhzO5nBAgCAAyFw3jRUAWhKfREu3OzrwREgk7uHcCY5s0hpOsvUGIyUcIdxsVolohHyRZPtVNJTEW3j7Ak/p5YPmpMDeZ/OIQFcEVGhISfPJh6PDhz6r3YxaKQ3y2BnZjZm+1nU/m9YbUn8LdtJTHwLiukpet0axHQIDAQAB";
+	public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB";
 
 	
 	private static final int SDK_PAY_FLAG = 1;
 	private static final int SDK_CHECK_FLAG = 2;
+	
+	String outTradeNo="";
 	
 	Result response=null;
 	com.alibaba.fastjson.JSONObject reqJson=null;
@@ -192,8 +194,9 @@ public class RentOrderConfirmActivity extends BaseActivity {
 	 * 
 	 */
 	public void pay() {
+		System.out.println("开始支付！");
 		// 订单
-		String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
+		String orderInfo = getOrderInfo("游捷滑板", "游捷滑板", "0.01");
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo);
@@ -278,7 +281,7 @@ public class RentOrderConfirmActivity extends BaseActivity {
 		orderInfo += "&seller_id=" + "\"" + SELLER + "\"";
 
 		// 商户网站唯一订单号
-		orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
+		orderInfo += "&out_trade_no=" + "\"" + outTradeNo + "\"";
 
 		// 商品名称
 		orderInfo += "&subject=" + "\"" + subject + "\"";
@@ -313,7 +316,7 @@ public class RentOrderConfirmActivity extends BaseActivity {
 		// orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
 
 		// 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-		orderInfo += "&return_url=\"m.alipay.com\"";
+		//orderInfo += "&return_url=\"m.alipay.com\"";
 
 		// 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
 		// orderInfo += "&paymethod=\"expressGateway\"";
@@ -334,14 +337,16 @@ public class RentOrderConfirmActivity extends BaseActivity {
 		Random r = new Random();
 		key = key + r.nextInt();
 		key = key.substring(0, 15);
+		System.out.println("outTradeNo========"+key);
 		return key;
 	}
 	
 	
 	public void readyParameter() {
+		outTradeNo=getOutTradeNo();
 		reqJson=new com.alibaba.fastjson.JSONObject();
 		reqJson.put("tradeType", "R");
-		reqJson.put("out_trade_no", getOutTradeNo());
+		reqJson.put("out_trade_no", outTradeNo);
 		CacheProcess c=new CacheProcess();
 		String mobileNo=c.getMobileNo(this);
 		reqJson.put("mobileNo", mobileNo);

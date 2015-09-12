@@ -151,7 +151,7 @@ public class OrderListActivity extends BaseListActivity {
 					Map m=(Map)orderList.get(i);
 					String imgAddr=(String)m.get(key[0]);
 					try {
-						URL url = new URL(imgAddr);
+						URL url = new URL(Constant.IMGURL_CONTEXT+imgAddr);
 						HttpURLConnection connection = (HttpURLConnection) url
 								.openConnection();
 						connection.setDoInput(true);

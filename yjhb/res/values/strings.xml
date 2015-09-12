@@ -26,10 +26,10 @@
 	<string name="loading">正在加载</string>
 	<string name="cjwt">常见问题</string>
 	
-	<string name="errcode_success">发送成功</string>
-	<string name="errcode_cancel">发送取消</string>
-	<string name="errcode_deny">发送被拒绝</string>
-	<string name="errcode_unknown">发送返回</string>
+	<string name="errcode_success">已成功分享！</string>
+	<string name="errcode_cancel">已取消分享！</string>
+	<string name="errcode_deny">分享被拒绝！</string>
+	<string name="errcode_unknown">发送返回！</string>
 	
 	<string name="soft_update_no">已经是最新版本</string>
     <string name="soft_update_title">软件更新</string>

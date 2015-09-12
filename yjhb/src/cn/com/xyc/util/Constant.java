@@ -5,7 +5,6 @@ public class Constant {
 	
 	
 	static String context="";
-	
 	public static String METHOD_GET_AUTO_CODE=context+"client/getAuthCode";
 	public static String METHOD_LOGIN=context+"client/getLatestUserByMobile";
 	public static String METHOD_GET_LOCAL_CACHE=context+"client/getLocalCache";
@@ -23,10 +22,7 @@ public class Constant {
 	public static String LOCAL_STORE_KEY_USER="USER";
 	public static String LOCAL_STORE_CACHES="CACHES";
 	
-	public static final String WE_CHART_ID = "wxd930ea5d5a258f4f";
-	public static final String STitle = "showmsg_title";
-	public static final String SMessage = "showmsg_message";
-	public static final String BAThumbData = "showmsg_thumb_data";
+	
 
 	
 	

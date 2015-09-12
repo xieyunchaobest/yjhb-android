@@ -146,13 +146,14 @@ public final class R {
         public static final int tool_btn_buy=0x7f020062;
         public static final int tool_btn_order=0x7f020063;
         public static final int tool_btn_personal=0x7f020064;
-        public static final int tool_btn_rent=0x7f020065;
-        public static final int toolbar_filter_normal=0x7f020066;
-        public static final int toolbar_filter_pressed=0x7f020067;
-        public static final int welcome=0x7f020068;
-        public static final int wheel_bg=0x7f020069;
-        public static final int wheel_val=0x7f02006a;
-        public static final int zuche=0x7f02006b;
+        public static final int tool_btn_personal_sel=0x7f020065;
+        public static final int tool_btn_rent=0x7f020066;
+        public static final int toolbar_filter_normal=0x7f020067;
+        public static final int toolbar_filter_pressed=0x7f020068;
+        public static final int welcome=0x7f020069;
+        public static final int wheel_bg=0x7f02006a;
+        public static final int wheel_val=0x7f02006b;
+        public static final int zuche=0x7f02006c;
     }
     public static final class id {
         public static final int bithday_layout=0x7f080011;
