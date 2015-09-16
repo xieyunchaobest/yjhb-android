@@ -85,19 +85,11 @@
        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        bgImage="@drawable/group_select_mid_o"
+        bgImage="@drawable/group_select_bottom_o"
         label="@string/hcsj"
         android:paddingLeft="10.0dip" />
     
-    <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_clxh_return"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        bgImage="@drawable/group_select_bottom_o"
-        label="@string/clxh"
-        android:paddingLeft="10.0dip" />
+ 
     </LinearLayout>
     
      <LinearLayout android:id="@+id/lay_fee"
@@ -122,6 +114,26 @@
         label="@string/zfy"
         android:paddingLeft="10.0dip" />
     
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/lay_we_chat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:background="#FFFFFF"
+        android:orientation="vertical" >
+             <CheckBox
+            android:id="@+id/cb_chare_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:checked="false"
+            android:text="@string/fxdwx"
+            android:textColor="#FF666666"
+            android:textSize="14dp"
+            android:paddingLeft="8dip"  />
+ 
     </LinearLayout>
     
      <LinearLayout 

@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -46,7 +47,7 @@ public class StoreListActivity  extends BaseListActivity{
 			setContentView(R.layout.store_list);
 
 			// 设置标题栏
-			setTitleBar("选择门店",View.GONE,View.GONE,View.GONE,false);
+			setTitleBar("选择门店",View.VISIBLE,View.GONE,View.GONE,false);
 
 			refreshListView = (PullToRefreshListView) getListView();
 			initView();
@@ -61,6 +62,16 @@ public class StoreListActivity  extends BaseListActivity{
  
 	}
 	
+	
+	 @Override
+		public boolean onKeyDown(int keyCode, KeyEvent event) {
+			 if (keyCode == KeyEvent.KEYCODE_BACK) {
+				 StoreListActivity.this.finish();
+			 }
+			 return true;
+		 }
+		 
+		 
 	 
  
 	protected void initView() {

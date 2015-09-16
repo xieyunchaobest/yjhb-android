@@ -88,13 +88,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/title" >
-        </activity>
-        <activity
-            android:name="cn.com.xyc.activity.RentOrderConfirmActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/title" >
-        </activity>
+        </activity> 
         <activity
             android:name="cn.com.xyc.activity.BuyConfirmActivity"
             android:exported="false"
@@ -104,7 +98,7 @@
         <activity
             android:name="cn.com.xyc.wxapi.WXEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/title" >
         </activity>

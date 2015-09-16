@@ -100,7 +100,7 @@ public class MapActivity extends BaseActivity {
 		OverlayOptions ooA = new MarkerOptions().position(p).icon(bdA)
 				.zIndex(9).draggable(true);
 		mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
-		super.setTitleBar("”ŒΩ›ª¨∞Â",View.GONE,View.VISIBLE,View.INVISIBLE,false);
+		super.setTitleBar("”ŒΩ›ª¨∞Â",View.GONE,View.GONE,View.INVISIBLE,false);
 		
 		
 		mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
@@ -167,7 +167,7 @@ public class MapActivity extends BaseActivity {
     /**
      * get cars
      */
-    public void initCache() {
+    public void initCache() { 
     	CacheProcess c =new CacheProcess();
     	try {
 			c.save(this, Constant.LOCAL_STORE_CACHES, (JSONObject) JSON.toJSON(response.result) );

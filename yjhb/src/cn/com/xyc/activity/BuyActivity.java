@@ -34,7 +34,7 @@ public class BuyActivity extends BaseActivity {
 	private int STORE_RETURN_CODE=1;
 	
 	private int CAR_GET_CODE=4;
-
+	 HashMap m=new HashMap();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
@@ -127,7 +127,7 @@ public class BuyActivity extends BaseActivity {
 			 if(flag==false)return;
 			 Intent intent = new Intent();
 			 intent.setClass(BuyActivity.this, BuyConfirmActivity.class);
-			 HashMap m=new HashMap();
+			
 			 m.put("storeName", ltmd.getValueText().getText());
 			 m.put("date", ltdate.getValueText().getText());
 			 m.put("model", ltmodel.getValueText().getText());
@@ -168,14 +168,15 @@ public class BuyActivity extends BaseActivity {
 		        	Bundle b=data.getExtras();
 		        	Map storemap=(Map)b.getSerializable("store");
 		        	ltmd.getValueText().setText((String)storemap.get("item_name"));
+		        	m.put("storeId", (Integer)storemap.get("item_id"));
 		        } else if(requestCode==CAR_GET_CODE){
 		        	Bundle b=data.getExtras();
 		        	Map caremap=(Map)b.getSerializable("car");
 		        	String model=(String)caremap.get("item_model");
 		        	ltmodel.getValueText().setText(model);
 		        	String fee=(String)caremap.get("item_fee");
-		        	
 		        	lttotalfee.getValueText().setText(fee.replaceAll("/Сʱ", ""));
+		        	m.put("carId", (Integer)caremap.get("item_id"));
 		        	
 		        } 
 		        super.onActivityResult(requestCode, resultCode, data);

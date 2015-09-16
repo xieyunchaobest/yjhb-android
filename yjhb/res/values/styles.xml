@@ -16,4 +16,11 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
     
+     <!-- checkbox style -->
+    <style name="checkboxc" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/common_checkbox</item>
+        <item name="android:textColor">#FFA2A499</item>
+    </style>
+    
+    
 </resources>

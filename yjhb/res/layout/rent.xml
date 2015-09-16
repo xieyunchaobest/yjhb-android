@@ -51,7 +51,8 @@
         android:layout_marginRight="8dp"
         bgImage="@drawable/group_select_bottom"
         label="@string/clxh"
-        android:paddingLeft="10.0dip" />
+        android:paddingLeft="10.0dip" /> 
+    
     </LinearLayout>
     
     
@@ -85,19 +86,11 @@
        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        bgImage="@drawable/group_select_mid"
+        bgImage="@drawable/group_select_bottom"
         label="@string/hcsj"
         android:paddingLeft="10.0dip" />
     
-    <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_clxh_return"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        bgImage="@drawable/group_select_bottom"
-        label="@string/clxh"
-        android:paddingLeft="10.0dip" />
+ 
     </LinearLayout>
     
      <LinearLayout android:id="@+id/lay_fee"

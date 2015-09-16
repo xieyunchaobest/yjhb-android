@@ -3,6 +3,7 @@ package cn.com.xyc.activity;
 import org.json.JSONException;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -65,18 +66,19 @@ public class LoginActivity extends BaseActivity {
 	
 	private boolean validate(String flag) {
 		if(flag.equals("1")) {
-			if(etMobileNo.getText().length()!=11) {
-				Toast.makeText(LoginActivity.this,"请输入正确的手机号！",
+			if(etAutoCode.getText().length()!=4) {
+				Toast.makeText(LoginActivity.this,"请输入正确验证码！",
 						Toast.LENGTH_SHORT).show();
 				return false;
 			}
 		}
 		
-		if(etAutoCode.getText().length()!=4) {
-			Toast.makeText(LoginActivity.this,"请输入正确验证码！",
+		if(etMobileNo.getText().length()!=11) {
+			Toast.makeText(LoginActivity.this,"请输入正确的手机号！",
 					Toast.LENGTH_SHORT).show();
 			return false;
 		}
+		
 		return true;
 	}
 	
@@ -88,7 +90,10 @@ public class LoginActivity extends BaseActivity {
 			public void onClick(View v) {
 				boolean vd=validate("");
 				if(vd==false)return;
-				
+				TimeCount mc = new TimeCount(60000, 1000);
+		        mc.start();
+		    	btnGetAuthCode.setEnabled(false);
+		    	btnGetAuthCode.setBackgroundResource(R.drawable.btn_sure_dis);
 				reqJson.put("mobileNo", etMobileNo.getText());
 				getAuthCode();
 			}
@@ -188,5 +193,25 @@ public class LoginActivity extends BaseActivity {
 		 }
 		 return true;
 	 }
+	 
+	 
+	 class TimeCount extends CountDownTimer {
+	        public TimeCount(long millisInFuture, long countDownInterval) {
+	            super(millisInFuture, countDownInterval);
+	        }
+	 
+	        @Override
+	        public void onFinish() {
+	        	btnGetAuthCode.setText("获取校验码");
+	        	btnGetAuthCode.setEnabled(true);
+	        	btnGetAuthCode.setBackgroundResource(R.drawable.btn_sure_o);
+	        }
+	 
+	        @Override
+	        public void onTick(long millisUntilFinished) {
+	        	btnGetAuthCode.setText("获取校验码(" + millisUntilFinished / 1000 + ")");
+	        }
+	    }
+	 
 
 }

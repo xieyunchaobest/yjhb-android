@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,9 @@ import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
 import cn.com.xyc.R;
 import cn.com.xyc.util.CacheProcess;
@@ -28,6 +29,7 @@ import cn.com.xyc.util.Constant;
 import cn.com.xyc.util.Result;
 import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.view.PullToRefreshListView;
+import cn.com.xyc.wxapi.WXEntryActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -44,6 +46,7 @@ public class OrderListActivity extends BaseListActivity {
 	String isCanDefectInput=null;
 	JSONObject reqJson=new JSONObject();
 	Result response=null;
+	boolean isReq=false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +54,11 @@ public class OrderListActivity extends BaseListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.order_list);
 		super.setTitleBar("订单",View.GONE,View.GONE,View.INVISIBLE,false);
-		
+		System.out.println("开始开始开始开始开始开始开始开始开始开始开始开始");
 		if(isLogin()) {
 			super.showProcessDialog(false);
 			initView();
+			isReq=true;
 			getOrderList();
 		}
 		registerListener();
@@ -101,6 +105,7 @@ public class OrderListActivity extends BaseListActivity {
 					RelativeLayout rl=(RelativeLayout)ll.findViewById(R.id.lay_img);
 					ImageView iv=(ImageView)rl.findViewById(R.id.item_img);
 					iv.setImageBitmap((Bitmap)((Map)orderList.get(i-1)).get("item_img"));
+					 
 				} 
 		 
 		    }
@@ -135,10 +140,12 @@ public class OrderListActivity extends BaseListActivity {
 			}
 			case 2: {
 				redrawUI();
+				
 			}
 				if (mProgressDialog != null)
 					mProgressDialog.dismiss();// 当接到消息时，关闭进度条
 			}
+			isReq=false;
 		}
 	};
 	
@@ -149,20 +156,25 @@ public class OrderListActivity extends BaseListActivity {
 			public void run() {
 				for(int i=0;i<orderList.size();i++) {
 					Map m=(Map)orderList.get(i);
-					String imgAddr=(String)m.get(key[0]);
-					try {
-						URL url = new URL(Constant.IMGURL_CONTEXT+imgAddr);
-						HttpURLConnection connection = (HttpURLConnection) url
-								.openConnection();
-						connection.setDoInput(true);
-						connection.connect();
-						InputStream input = connection.getInputStream();
-						Bitmap myBitmap = BitmapFactory.decodeStream(input);
-						input.close();
-						m.put("item_img", myBitmap);
-					}catch(Exception e) {
-						e.printStackTrace();
+					Object obj=m.get(key[0]);
+					if(obj instanceof String) {
+						try {
+							URL url = new URL(Constant.IMGURL_CONTEXT+obj);
+							HttpURLConnection connection = (HttpURLConnection) url
+									.openConnection();
+							connection.setDoInput(true);
+							connection.connect();
+							InputStream input = connection.getInputStream();
+							Bitmap myBitmap = BitmapFactory.decodeStream(input);
+							input.close();
+							m.put("item_img", myBitmap);
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+					}else {
+						m.put("item_img", (Bitmap)obj);
 					}
+					
 				}
 				Message m = new Message();
 				m.what = 2;
@@ -177,6 +189,16 @@ mThread.start();
 		orderList = com.alibaba.fastjson.JSON.parseArray(
 				ja.toJSONString(),
 				java.util.HashMap.class);
+		if(orderList!=null) {
+			for(int i=0;i<orderList.size();i++) {
+				Map m=(Map)orderList.get(i);
+				String payDate=(String)m.get("item_date");
+				if(payDate==null ||"".equals(payDate)) {
+					payDate="未支付";
+					m.put("item_date", payDate);
+				}
+			}
+		}
 	 
 		loadImage();
 	}
@@ -188,8 +210,12 @@ mThread.start();
 	protected void onResume() {
 		super.onResume();
 		System.out.print("继续继续继续继续继续继续继续");
-		initView();
-		getOrderList();
+		
+		if (isReq == false) {
+			initView();
+			getOrderList();
+		}
+		
 	}
 	 
 	
@@ -209,11 +235,26 @@ mThread.start();
 	}
 	
  
-
  
 	 
  
 	protected void registerListener() {
-		 
+		refreshListView.setOnItemClickListener(new OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                    long arg3) {
+				HashMap m=(HashMap)orderList.get(arg2-1);
+				
+				Intent intent = new Intent();
+				Bundle b=new Bundle();
+				b.putInt("orderId",(Integer)m.get("item_id"));
+				b.putString("payDate", (String)m.get("item_date"));
+				intent.putExtras(b);
+				intent.setClass(OrderListActivity.this,
+						WXEntryActivity.class);
+				startActivity(intent);
+            }
+             
+        });
 	}
 }

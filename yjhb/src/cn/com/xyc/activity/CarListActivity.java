@@ -17,12 +17,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import cn.com.xyc.R;
@@ -62,7 +62,7 @@ public class CarListActivity  extends BaseListActivity{
 			
 
 			// 设置标题栏
-			setTitleBar("选择车辆",View.GONE,View.GONE,View.GONE,false);
+			setTitleBar("选择车辆",View.VISIBLE,View.GONE,View.GONE,false);
 
 			refreshListView = (PullToRefreshListView) getListView();
 			registerListener();
@@ -76,6 +76,19 @@ public class CarListActivity  extends BaseListActivity{
  
 	}
 	
+	
+	
+	 @Override
+		public boolean onKeyDown(int keyCode, KeyEvent event) {
+			 if (keyCode == KeyEvent.KEYCODE_BACK) {
+				 CarListActivity.this.finish();
+			 }
+			 return true;
+		 }
+		 
+		 
+
+	 
 	public void loadImage() {
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 			@Override

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
@@ -24,6 +25,7 @@ import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.view.LabelText;
 import cn.com.xyc.view.datepicker.DatePicker;
 import cn.com.xyc.view.datepicker.DatePicker.DateTimeSetListener;
+import cn.com.xyc.wxapi.WXEntryActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -35,7 +37,6 @@ public class RentActivity extends BaseActivity {
 	private LabelText ltgetdate;
 	private LabelText ltreturndate;
 	private LabelText ltgetmodel;
-	private LabelText ltretunmodel;
 	private LabelText lttotalfee;
 	
 	private TextView tvtxt_fee;
@@ -56,6 +57,9 @@ public class RentActivity extends BaseActivity {
 	Map feeMap=new HashMap();
 	Map getMap=new HashMap();
 	Map returnMap=new HashMap();
+	
+	Map sxfMap=new HashMap();
+	Map ydhcfMap=new HashMap();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +88,35 @@ public class RentActivity extends BaseActivity {
 	
 	
 	public void initView() {
+		CacheProcess c= new CacheProcess();
+		String cache=c.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_CACHES);
+		JSONObject cj=com.alibaba.fastjson.JSONObject.parseObject(cache);
+		List configList = com.alibaba.fastjson.JSON.parseArray(
+				cj.getJSONArray("configList").toJSONString(),
+				java.util.HashMap.class);
+		System.out.println("configListconfigList="+configList);
+		if(configList!=null) {
+			for(int i=0;i<configList.size();i++) {
+				Map m=(Map)configList.get(i);
+				if("SXF".equals(m.get("configCode"))) {
+					sxfMap=m;
+					continue ;
+				}
+				if("YDHCF".equals(m.get("configCode"))) {
+					ydhcfMap=m;
+					continue ;
+				}
+				
+			}
+		}
+		
+		
 		btnRent=(Button)findViewById(R.id.btn_rent);
 		ltgetmd=(LabelText)findViewById(R.id.elt_mdmc);
 		ltreturnmd=(LabelText)findViewById(R.id.elt_mdmc_return);
 		ltgetdate=(LabelText)findViewById(R.id.elt_time);
 		ltreturndate=(LabelText)findViewById(R.id.elt_time_return);
 		ltgetmodel=(LabelText)findViewById(R.id.elt_clxh);
-		ltretunmodel=(LabelText)findViewById(R.id.elt_clxh_return);
 		lttotalfee=(LabelText)findViewById(R.id.elt_clxh_fee);
 		lttotalfee.getValueText().setText("0元");
 		
@@ -109,7 +135,7 @@ public class RentActivity extends BaseActivity {
 	
 	
 	public void calcPrice() {
-		double bsxf=5.00d;//基本手续费
+		double bsxf=Double.parseDouble((String)ydhcfMap.get("configValue"));//基本手续费
 		double syf=0.0d;//使用费
 		double mdsxf=0d;//门店手续费，取车和换车门店不同时
 		Double totalfee=0d;
@@ -122,7 +148,7 @@ public class RentActivity extends BaseActivity {
 			 !StringUtil.isBlank(ltreturndate.getValueText().getText().toString())
 				) {
 			if(!ltgetmd.getValueText().getText().toString().equals(ltreturnmd.getValueText().getText().toString())) {
-				mdsxf=5.00d;
+				mdsxf=Double.parseDouble((String)sxfMap.get("configValue"));
 			}
 			
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -159,7 +185,7 @@ public class RentActivity extends BaseActivity {
 					
 				 if(validate()==false) return ;
 				 intent = new Intent();
-				 intent.setClass(RentActivity.this, RentOrderConfirmActivity.class);
+				 intent.setClass(RentActivity.this, WXEntryActivity.class);
 				 HashMap m=new HashMap();
 				 m.put("getMap", getMap);
 				 m.put("returnMap", returnMap);
@@ -238,16 +264,7 @@ public class RentActivity extends BaseActivity {
 				startActivityForResult(intent,CAR_GET_CODE);
 			}
 		});
-		
-		ltretunmodel.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				intent = new Intent(RentActivity.this,
-						CarListActivity.class);
-				intent.putExtra("fromFlag", CAR_RETURN_CODE);
-				startActivityForResult(intent,CAR_RETURN_CODE);
-			}
-		});
+		 
 	}
 	
 	public boolean isLogin(){
@@ -300,7 +317,6 @@ public class RentActivity extends BaseActivity {
 		        	Bundle b=data.getExtras();
 		        	Map caremap=(Map)b.getSerializable("car");
 		        	String carModel=(String)caremap.get("item_model");
-		        	ltretunmodel.getValueText().setText(carModel);
 		        	returnMap.put("carModel", carModel);
 		        	calcPrice();
 		        }
@@ -336,12 +352,7 @@ public class RentActivity extends BaseActivity {
 			 Toast.makeText(getApplicationContext(), "请选择还车时间！",
 						Toast.LENGTH_SHORT).show();
 			 return false;
-		 }
-		 if(StringUtil.isBlank(ltretunmodel.getValueText().getText().toString())) {
-			 Toast.makeText(getApplicationContext(), "请选择车辆型号！",
-						Toast.LENGTH_SHORT).show();
-			 return false;
-		 }
+		 } 
 		 if((long)(Long.parseLong(returnTime.replaceAll(" ", "").replaceAll(":", "").replaceAll("-", "")) ) <=
 				 (long)(Long.parseLong(getTime.replaceAll(" ", "").replaceAll(":", "").replaceAll("-", "")) )
 				 ) {

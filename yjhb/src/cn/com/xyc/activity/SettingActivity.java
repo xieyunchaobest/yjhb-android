@@ -16,10 +16,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 import cn.com.xyc.R;
-import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.UpdateManager;
 import cn.com.xyc.view.LabelText;
-import cn.com.xyc.wxapi.WXEntryActivity;
 
 public class SettingActivity extends BaseActivity {
 	
@@ -190,12 +188,7 @@ public class SettingActivity extends BaseActivity {
 			}
 		});
 		
-		ltquestion.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(SettingActivity.this,WXEntryActivity.class));
-			}
-		});
+	 
 		
 		ltdqbb.setOnClickListener(new Button.OnClickListener() {
 			@Override
