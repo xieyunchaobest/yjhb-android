@@ -46,6 +46,7 @@ import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
+import com.tencent.mm.sdk.openapi.WXWebpageObject;
 
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 	private Button btn_submit_order;
@@ -248,7 +249,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 				if(cbShareWechat.isChecked()) {
 					weChatShare();
 				}else {
-					WXEntryActivity.this.showProcessDialog(false);
 					createOrder();
 				}
 				
@@ -275,21 +275,19 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 
 	
 	public void weChatShare() {
-		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.car_1);
-		WXImageObject imgObj = new WXImageObject(bmp);
 		
-		WXMediaMessage msg = new WXMediaMessage();
-		msg.mediaObject = imgObj;
+		WXWebpageObject webpage = new WXWebpageObject();
+		webpage.webpageUrl = "http://s-210283.gotocdn.com:9090/yjhb/server/desc";
+		WXMediaMessage msg = new WXMediaMessage(webpage);
+		msg.title = "你还在为出行发愁吗？试试便捷的滑板车吧！";
+		msg.description = "滑板车租赁、销售，解决您的出行问题！";
+		Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		msg.thumbData = Util.bmpToByteArray(thumb, true);
 		
-		Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-		bmp.recycle();
-		msg.thumbData = Util.bmpToByteArray(thumbBmp, true);  // 设置缩略图
-
 		SendMessageToWX.Req req = new SendMessageToWX.Req();
-		req.transaction = buildTransaction("img");
+		req.transaction = buildTransaction("webpage");
 		req.message = msg;
 		req.scene = SendMessageToWX.Req.WXSceneTimeline;
-		
 		api.sendReq(req);
 		
 	}
@@ -303,7 +301,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 				
 				int code=response.resultCode;
 				if(code==1) {
-					WXEntryActivity.this.showProcessDialog(false);
 					pay();
 				}else {
 					Toast.makeText(WXEntryActivity.this, "创建订单失败！",
@@ -475,7 +472,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 		orderInfo += "&body=" + "\"" + body + "\"";
 
 		// 商品金额
-		orderInfo += "&total_fee=" + "\"" + 0.01 + "\"";
+		orderInfo += "&total_fee=" + "\"" + price + "\"";
 
 		// 服务器异步通知页面路径
 		orderInfo += "&notify_url=" + "\"" + Constant.NotifyURL
@@ -559,6 +556,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 	
 	
 	public void createOrder() {
+		WXEntryActivity.this.showProcessDialog(false);
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 			@Override
 			public void run() {

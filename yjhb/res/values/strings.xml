@@ -20,8 +20,9 @@
      <string name="hcsj">还车时间</string>
     <string name="zfy">总费用</string>
     <string name="lxkf">联系客服</string>
-    <string name="wxfx">微信分享</string>
+    <string name="cpjs">产品介绍</string>
     <string name="dqbb">当前版本</string>
+     <string name="dqyh">当前用户</string>
 	<string name="exit">退出登录</string>
 	<string name="loading">正在加载</string>
 	<string name="cjwt">常见问题</string>

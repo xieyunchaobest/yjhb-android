@@ -14,5 +14,14 @@
         android:divider="@color/black2"
         android:dividerHeight="1px"
         android:fadeScrollbars="true" />
+     
+       <TextView
+            android:id="@+id/tv_norecord"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp" 
+            android:gravity="center"
+            android:layout_marginTop="15dip"
+            android:text="没有订单记录"
+            />
 
 </LinearLayout>

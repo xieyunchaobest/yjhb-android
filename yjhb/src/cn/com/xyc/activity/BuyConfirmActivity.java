@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.sdk.app.PayTask;
 
 import android.content.Intent;
@@ -45,7 +47,10 @@ public class BuyConfirmActivity extends BaseActivity {
 	String outTradeNo="";
 	com.alibaba.fastjson.JSONObject reqJson=null;
 	Result response=null;
-	HashMap infoMap=null;
+	HashMap infoMap=new HashMap();
+	
+	JSONObject reqJson1=null;
+	Result response1=null;
 	
 	// 商户PID
 		public static final String PARTNER = Constant.PARTNER;
@@ -60,7 +65,10 @@ public class BuyConfirmActivity extends BaseActivity {
 		private static final int SDK_PAY_FLAG = 1;
 		private static final int SDK_CHECK_FLAG = 2;
 		
-
+		Integer orderId=null;
+		String payDate=null;
+		
+		Intent intent=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
@@ -69,8 +77,23 @@ public class BuyConfirmActivity extends BaseActivity {
 			setContentView(R.layout.buyconfirm);
 			//getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 			super.setTitleBar("订单确认",View.VISIBLE,View.GONE,View.INVISIBLE,false);
-			initView();
-			registerListener();
+			intent=getIntent();
+			Bundle b=intent.getExtras();
+			orderId=b.getInt("orderId");
+			payDate=b.getString("payDate");
+			btnOk=(Button)findViewById(R.id.btn_buy);
+			if(!"未支付".equals(payDate) && !StringUtil.isBlank(payDate)) {
+				btnOk.setVisibility(View.GONE);
+			}
+			if(orderId!=null && orderId.intValue()!=0) {
+				requestOrderInfo();
+			}else {
+				infoMap=(HashMap)intent.getSerializableExtra("info");//from page StoreInfo
+				initView();
+				registerListener();
+			}
+			
+			
 			ActivityUtil.getInstance().addActivity(this);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -269,14 +292,41 @@ public class BuyConfirmActivity extends BaseActivity {
 						Toast.LENGTH_SHORT).show();
 				break;
 			}
+			case 4:{
+				redvelopData();
+				initView();
+				registerListener();
+				break;
+			}
 			default:
 				break;
 			}
 		};
 	};
+	
+	public void redvelopData() {
+		reqJson1=(JSONObject) JSON.toJSON(response1.result) ;
+		Integer carId=reqJson1.getInteger("carId");
+		Integer storeId=reqJson1.getInteger("storeId");
+		Double totalFee=reqJson1.getDouble("totalFee");
+		String payTime=reqJson1.getString("payTime");
+		String carModel=reqJson1.getString("carModel");
+		String getStoreName=reqJson1.getString("getStoreName");
+		String rentTime=reqJson1.getString("rentTime");
+		outTradeNo=reqJson1.getString("outTradeNo");
+		
+		infoMap.put("storeName", getStoreName);
+		infoMap.put("date", rentTime);
+		infoMap.put("model", carModel);
+		infoMap.put("fee", String.valueOf(totalFee));
+		 
+		
+	}
 
 	public void readyParameter() {
-		outTradeNo=getOutTradeNo();
+		if(StringUtil.isBlank(outTradeNo)) {
+			outTradeNo=getOutTradeNo();
+		}
 		reqJson=new com.alibaba.fastjson.JSONObject();
 		reqJson.put("tradeType", "B");
 		reqJson.put("out_trade_no", outTradeNo);
@@ -286,8 +336,31 @@ public class BuyConfirmActivity extends BaseActivity {
 		reqJson.put("carId", (Integer)infoMap.get("carId"));
 		reqJson.put("storeId", (Integer)infoMap.get("storeId"));
 		reqJson.put("totalFee", ((String)infoMap.get("fee")).replaceAll("元", ""));
+		reqJson.put("model", (String)infoMap.get("model"));
+		reqJson.put("carModel", (String)infoMap.get("model"));
+		reqJson.put("rentTime", (String)infoMap.get("date"));
+		reqJson.put("getStoreName", (String)infoMap.get("storeName"));
 	}
 	
+	
+	public void requestOrderInfo() {
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						reqJson1=new JSONObject();
+						reqJson1.put("orderId", orderId);
+						response1 = getPostHttpContent("",
+								Constant.METHOD_GET_ORDERINFO,
+								reqJson1.toJSONString());
+						if (handleError(response1) == true)
+							return;
+						Message m = new Message();
+						m.what = 4;
+						mHandler.sendMessage(m);
+					}
+				});
+		mThread.start();
+	}
 	
 	
 	public void createOrder() {
@@ -326,10 +399,7 @@ mThread.start();
 		ltdate=(LabelText)findViewById(R.id.elt_time);
 		ltmodel=(LabelText)findViewById(R.id.elt_clxh);
 		lttotalfee=(LabelText)findViewById(R.id.elt_clxh_fee);
-		btnOk=(Button)findViewById(R.id.btn_buy);
 		
-		Intent intent=getIntent();
-		infoMap=(HashMap)intent.getSerializableExtra("info");//from page StoreInfo
 		ltmd.getValueText().setText((String)infoMap.get("storeName"));
 		ltdate.getValueText().setText((String)infoMap.get("date"));
 		ltmodel.getValueText().setText((String)infoMap.get("model"));

@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import cn.com.xyc.R;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
@@ -39,6 +40,7 @@ public class OrderListActivity extends BaseListActivity {
 
 	private SimpleAdapter simpleAdapter;
 	private PullToRefreshListView refreshListView; 
+	private TextView tv=null;
 
 	private List orderList = new ArrayList();
 	private String[] key = {"item_img","item_model", "item_date","item_mdmc",
@@ -54,6 +56,9 @@ public class OrderListActivity extends BaseListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.order_list);
 		super.setTitleBar("订单",View.GONE,View.GONE,View.INVISIBLE,false);
+		tv=(TextView)findViewById(R.id.tv_norecord);
+		tv.setVisibility(View.GONE);
+		refreshListView = (PullToRefreshListView) getListView();
 		System.out.println("开始开始开始开始开始开始开始开始开始开始开始开始");
 		if(isLogin()) {
 			super.showProcessDialog(false);
@@ -142,10 +147,11 @@ public class OrderListActivity extends BaseListActivity {
 				redrawUI();
 				
 			}
-				if (mProgressDialog != null)
-					mProgressDialog.dismiss();// 当接到消息时，关闭进度条
+				
 			}
 			isReq=false;
+			if (mProgressDialog != null)
+				mProgressDialog.dismiss();// 当接到消息时，关闭进度条
 		}
 	};
 	
@@ -199,8 +205,16 @@ mThread.start();
 				}
 			}
 		}
+		if(orderList==null || orderList.size()==0) {
+			tv.setVisibility(View.VISIBLE);
+			refreshListView.setVisibility(View.GONE);
+		}else {
+			refreshListView.setVisibility(View.VISIBLE);
+			tv.setVisibility(View.GONE);
+			loadImage();
+		}
 	 
-		loadImage();
+		
 	}
 	
 
@@ -222,7 +236,6 @@ mThread.start();
  
 	protected void initView() {
 		CacheProcess cache=new CacheProcess();
-		refreshListView = (PullToRefreshListView) getListView();
 		String user=cache.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_KEY_USER);
 		JSONObject json=new JSONObject();
 		if(!StringUtil.isBlank(user)) {
@@ -244,14 +257,21 @@ mThread.start();
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                     long arg3) {
 				HashMap m=(HashMap)orderList.get(arg2-1);
-				
+				String tradeType=(String)m.get("trade_type");
+				Class target=null;
+				if("B".equals(tradeType)) {
+					target=BuyConfirmActivity.class;
+				}else {
+					target=WXEntryActivity.class;
+				}
 				Intent intent = new Intent();
 				Bundle b=new Bundle();
 				b.putInt("orderId",(Integer)m.get("item_id"));
 				b.putString("payDate", (String)m.get("item_date"));
+				
 				intent.putExtras(b);
 				intent.setClass(OrderListActivity.this,
-						WXEntryActivity.class);
+						target);
 				startActivity(intent);
             }
              

@@ -1,5 +1,8 @@
 package cn.com.xyc.activity;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -16,15 +19,20 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 import cn.com.xyc.R;
+import cn.com.xyc.util.CacheProcess;
+import cn.com.xyc.util.Constant;
+import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.util.UpdateManager;
 import cn.com.xyc.view.LabelText;
 
 public class SettingActivity extends BaseActivity {
 	
 	private LabelText ltlxkf;
-	private LabelText ltwxfx;
+	private LabelText elt_cpjs;
 	private LabelText ltquestion;
 	private LabelText ltdqbb;
+	private LabelText ltdqyh;
+	
 	Dialog dialog=null;
 	private Button logoutButton;
 	Dialog logoutdialog=null;
@@ -131,19 +139,19 @@ public class SettingActivity extends BaseActivity {
 	
 	private void initView() {
 		ltlxkf=(LabelText)findViewById(R.id.elt_lxkf);
-		ltwxfx=(LabelText)findViewById(R.id.elt_wxfx);
+		elt_cpjs=(LabelText)findViewById(R.id.elt_cpjs);
 		ltdqbb=(LabelText)findViewById(R.id.elt_dqbb);
-		ltlxkf.getValueText().setText("10086");
+		ltlxkf.getValueText().setText("01082886982");
 		ltdqbb.getValueText().setText("1.0");
 		ltquestion=(LabelText)findViewById(R.id.elt_question);
 		logoutButton=(Button)findViewById(R.id.btn_logout);
 		dialog = new AlertDialog.Builder(this).setIcon(
 			     android.R.drawable.btn_star).setTitle("呼叫").setMessage(
-			     "是否电话联系客服10086").setPositiveButton("是",
+			     "是否电话联系客服").setPositiveButton("是",
 			     new OnClickListener() {
 
 			      public void onClick(DialogInterface dialog, int which) {
-			    	     Intent intent = new Intent(Intent.ACTION_CALL , Uri.parse("tel:" +  10086));  
+			    	     Intent intent = new Intent(Intent.ACTION_CALL , Uri.parse("tel:" +  "01082886982"));  
 			                //相应事件   
 			    	     SettingActivity.this.startActivity(intent);  
 			      }
@@ -167,6 +175,19 @@ public class SettingActivity extends BaseActivity {
 			    	   dialog.dismiss();
 			    }
 			   }).create();
+		
+		
+		ltdqyh=(LabelText)findViewById(R.id.elt_dqyh);
+		CacheProcess c=new CacheProcess();
+		String cache=c.getCacheValueInSharedPreferences(this, Constant.LOCAL_STORE_KEY_USER);
+	 
+		JSONObject user = JSON.parseObject(cache);  
+		if(user!=null && user.containsKey("mobileNo") && !(StringUtil.isBlank(user.getString("mobileNo")))) {
+			ltdqyh.getValueText().setText(user.getString("mobileNo"));
+		}
+		
+		
+		
 	}
 	
 	
@@ -196,6 +217,25 @@ public class SettingActivity extends BaseActivity {
 				startCheckThread();
 			}
 		});
+		
+		elt_cpjs.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				 Intent intent = new Intent();
+				 intent.setClass(SettingActivity.this, ProdDescActivity.class); 
+				startActivity(intent);	
+			}
+		});
+		
+		ltquestion.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				 Intent intent = new Intent();
+				 intent.setClass(SettingActivity.this, QuestionActivity.class); 
+				startActivity(intent);	
+			}
+		});
+		
 	}		 
 
 		 

@@ -19,27 +19,27 @@
         label="@string/lxkf" />
 
     <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_wxfx"
+        android:id="@+id/elt_cpjs"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="15dp"
         bgImage="@drawable/p_desc"
-        label="@string/wxfx"
+        label="@string/cpjs"
         android:paddingLeft="45.0dip"  />
 
     
     
      <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_call"
+        android:id="@+id/elt_dqyh"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="15dp"
         bgImage="@drawable/p_call"
-        label="@string/dqbb"
+        label="@string/dqyh"
         android:paddingLeft="45.0dip"  />
      
       <cn.com.xyc.view.LabelText
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/btn_logout"
@@ -80,6 +80,15 @@
             android:text="退出登录"
             android:textColor="#FFFFFFFF"
             android:textSize="16dip" />
+        
+        <TextView
+            android:id="@+id/tv_object"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_marginTop="15dip"
+            android:text="北京寰网科技有限责任公司   版权所有"
+            android:layout_height="fill_parent" />
+
     </LinearLayout>
 
 </LinearLayout>
