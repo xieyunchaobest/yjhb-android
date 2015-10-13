@@ -1,15 +1,7 @@
 package cn.com.xyc.util;
 
 public class Constant {
-	
-	
-	
-	
-	public static String NotifyURL="http://116.255.186.54:9090/yjhb/client/alipayNotify";
-	public static final String PARTNER = "2088021385295054";
-	public static final String SELLER = "huanwangkejigongsi@163.com";
-	public static final String RSA_PRIVATE = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAOzgjW+gj+/K9/a1Zp6fhBC+gmzbEGQE6E/98gQ72CVlQBvfuk1aA93fO7FNZITEHUWwXuH5786/vKFnHXfDvnip0o/6Pj5YLv25Dt3ZrkhWvfuhlvFvSnaMpKoGE9ILQlL7zcPGvN1FTzsHLiCHX8UxnjIUNSfOgki16ARU/A5nAgMBAAECgYEAndklZvV/9TMz+dr3/0wdHWtWTmPMkFoU1PlMhTW722+VQP3dkB4j5X4UsRn5md92AjJ9h+idvRBYCtZD9MMj8MwLcFiH/Zct6MWWw98IeImmRHPiZO+4F9vVWoEAVKQNkqjl8oSPWgb4N9XovUtZ5Vf26z39FELDumw4l8giskECQQD/vAezACJwZTzleO+nfCHfeu3SzcShqA4Y6ZfZWeOsepmQYfPrYYcnphWtDF67fUyp3Xj1ydHe73xXdjU2Y0HNAkEA7R+CrKyy0YoR7zWleYtw4DhTey3Ckthu/o5vyW7RsRFnaL6byeafeDOuS+tXChJ8vWwzEGVR513qzdl4dAZtAwJBALmh76TLsDQOCMo5oxzcSmpCfWfL3bPKnZEP3x3y1gVZaScZM0nlHYp2UL2wgQNvzLpw/WDNAv7ksEl8kNvN6PECQCHZ+cHE9dJML7tCoVj0uyyHXgObyMdF9rKIixTqqSzqGyUs8Pil3+Y9GojkFAzwDrbMF44jqMmq8rZocXW+5RkCQQDBgbRls96KiCTi9aUW1dauVBE26FYCr4hnPTm5EeAbYlc/WUv+8yD7wBcPbjIhVFUapAM2BZCoqiDKpSjrZnM1";
-	
+
 	
 	public static final String WE_CHART_ID = "wx104ecdfd7d944960";
 	public static final String STitle = "showmsg_title";
