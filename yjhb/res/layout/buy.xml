@@ -43,10 +43,22 @@
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        bgImage="@drawable/group_select_bottom"
+        bgImage="@drawable/group_select_mid"
         label="@string/clxh"
         android:paddingLeft="10.0dip" />
     </LinearLayout>
+    
+    <cn.com.xyc.view.EditLabelText
+        android:id="@+id/elt_address"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_bottom_o"
+        label="@string/shdz"
+        android:paddingLeft="10.0dip" >
+    </cn.com.xyc.view.EditLabelText>
+    
     
      <LinearLayout android:id="@+id/lay_fee"
     android:layout_width="fill_parent"

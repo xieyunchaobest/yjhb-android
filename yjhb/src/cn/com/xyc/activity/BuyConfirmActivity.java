@@ -6,23 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alipay.sdk.app.PayTask;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import cn.com.xyc.R;
@@ -33,9 +26,11 @@ import cn.com.xyc.util.Result;
 import cn.com.xyc.util.SignUtils;
 import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.view.LabelText;
-import cn.com.xyc.view.datepicker.DatePicker;
-import cn.com.xyc.view.datepicker.DatePicker.DateTimeSetListener;
 import cn.com.xyc.vo.PayResult;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.sdk.app.PayTask;
 
 public class BuyConfirmActivity extends BaseActivity {
 	
@@ -44,6 +39,7 @@ public class BuyConfirmActivity extends BaseActivity {
 	private LabelText ltmodel;
 	private LabelText lttotalfee;
 	private Button btnOk; 
+	private LabelText  elt_address;
 	String outTradeNo="";
 	com.alibaba.fastjson.JSONObject reqJson=null;
 	Result response=null;
@@ -313,12 +309,14 @@ public class BuyConfirmActivity extends BaseActivity {
 		String carModel=reqJson1.getString("carModel");
 		String getStoreName=reqJson1.getString("getStoreName");
 		String rentTime=reqJson1.getString("rentTime");
+		String address=reqJson1.getString("address");
 		outTradeNo=reqJson1.getString("outTradeNo");
 		
 		infoMap.put("storeName", getStoreName);
 		infoMap.put("date", rentTime);
 		infoMap.put("model", carModel);
 		infoMap.put("fee", String.valueOf(totalFee));
+		infoMap.put("address", address);
 		 
 		
 	}
@@ -340,6 +338,7 @@ public class BuyConfirmActivity extends BaseActivity {
 		reqJson.put("carModel", (String)infoMap.get("model"));
 		reqJson.put("rentTime", (String)infoMap.get("date"));
 		reqJson.put("getStoreName", (String)infoMap.get("storeName"));
+		reqJson.put("address", (String)infoMap.get("address"));
 	}
 	
 	
@@ -399,11 +398,13 @@ mThread.start();
 		ltdate=(LabelText)findViewById(R.id.elt_time);
 		ltmodel=(LabelText)findViewById(R.id.elt_clxh);
 		lttotalfee=(LabelText)findViewById(R.id.elt_clxh_fee);
+		elt_address=(LabelText)findViewById(R.id.elt_address);
 		
 		ltmd.getValueText().setText((String)infoMap.get("storeName"));
 		ltdate.getValueText().setText((String)infoMap.get("date"));
 		ltmodel.getValueText().setText((String)infoMap.get("model"));
 		lttotalfee.getValueText().setText((String)infoMap.get("fee"));
+		elt_address.getValueText().setText((String)infoMap.get("address"));
 		
 		
 	}

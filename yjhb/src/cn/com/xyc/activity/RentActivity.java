@@ -13,8 +13,12 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.xyc.R;
@@ -49,7 +53,7 @@ public class RentActivity extends BaseActivity {
 	
 	Intent intent =null;
 	
-	Map storegetmap=null;
+	HashMap storegetmap=null;
 	String getTime="";
 	String returnTime="";
 	Map getcaremap=null;
@@ -60,6 +64,8 @@ public class RentActivity extends BaseActivity {
 	
 	Map sxfMap=new HashMap();
 	Map ydhcfMap=new HashMap();
+	
+	HashMap posotionMap=new HashMap();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,12 +131,44 @@ public class RentActivity extends BaseActivity {
 	
 		Object store=intent.getSerializableExtra("storeData");//from page StoreInfo
 		if(store!=null) {
-			storegetmap=(Map)store;
+			storegetmap=(HashMap)store;
 			String storeName=(String)storegetmap.get("item_name");
 			ltgetmd.getValueText().setText(storeName);
 			getMap.put("storeName", storeName);
+			showPositionImg();
 		}
 		
+	}
+	
+	private  void showPositionImg() {
+		RelativeLayout.LayoutParams rlp=new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);
+		RelativeLayout rl=new RelativeLayout(this);
+		rl.setLayoutParams(rlp);
+		
+		ImageView iv=new ImageView(this);
+		iv.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent it = new Intent();
+				it.setClass(RentActivity.this, MapActivity.class);
+				
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("storeinfo", storegetmap);
+				it.putExtras(bundle);
+				
+				startActivity(it);	
+			
+			}
+		});
+		
+		iv.setImageResource(R.drawable.icon_gcoding);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);  
+		//此处相当于布局文件中的Android:layout_gravity属性  
+		lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		lp.setMargins(0, 10, 100, 10);
+		iv.setLayoutParams(lp);
+		rl.addView(iv);
+		ltgetmd.addView(rl);
 	}
 	
 	
@@ -289,7 +327,8 @@ public class RentActivity extends BaseActivity {
 		 if(data!=null) {
 			 if(requestCode==STORE_GET_CODE){
 		        	Bundle b=data.getExtras();
-		        	storegetmap=(Map)b.getSerializable("store");
+		        	storegetmap=(HashMap)b.getSerializable("store");
+		        	showPositionImg();
 		        	String storeName=(String)storegetmap.get("item_name");
 		        	Integer storeId=(Integer)storegetmap.get("item_id");
 		        	ltgetmd.getValueText().setText(storeName);

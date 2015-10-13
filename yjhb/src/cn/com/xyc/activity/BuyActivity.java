@@ -3,24 +3,25 @@ package cn.com.xyc.activity;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 import cn.com.xyc.R;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
 import cn.com.xyc.util.StringUtil;
+import cn.com.xyc.view.EditLabelText;
 import cn.com.xyc.view.LabelText;
 import cn.com.xyc.view.datepicker.DatePicker;
 import cn.com.xyc.view.datepicker.DatePicker.DateTimeSetListener;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 public class BuyActivity extends BaseActivity {
 	
@@ -28,7 +29,7 @@ public class BuyActivity extends BaseActivity {
 	private LabelText ltdate;
 	private LabelText ltmodel;
 	private LabelText lttotalfee;
-	
+	private EditLabelText elt_address ;
 	private Button btnOk;
 	private int STORE_GET_CODE=0;
 	private int STORE_RETURN_CODE=1;
@@ -76,6 +77,7 @@ public class BuyActivity extends BaseActivity {
 		ltmodel=(LabelText)findViewById(R.id.elt_clxh);
 		lttotalfee=(LabelText)findViewById(R.id.elt_clxh_fee);
 		lttotalfee.getValueText().setText("0Ԫ");
+		elt_address=(EditLabelText)findViewById(R.id.elt_address);
 		btnOk=(Button)findViewById(R.id.btn_buy);
 	}
 	
@@ -132,6 +134,7 @@ public class BuyActivity extends BaseActivity {
 			 m.put("date", ltdate.getValueText().getText());
 			 m.put("model", ltmodel.getValueText().getText());
 			 m.put("fee", lttotalfee.getValueText().getText());
+			 m.put("address", elt_address.getValueText().getText().toString());
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("info", m);
 			intent.putExtras(bundle);

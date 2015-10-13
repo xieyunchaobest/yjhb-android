@@ -71,7 +71,7 @@ public class EditLabelText extends LinearLayout {
 		valueText.setTextColor(0xFF666666);
 		valueText.setAutoLinkMask(Linkify.WEB_URLS);
 		valueText.setFocusable(true);
-		
+		valueText.setTextSize(16f);
 		addView(labelText);
 		addView(valueText);
 		

@@ -277,7 +277,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 	public void weChatShare() {
 		
 		WXWebpageObject webpage = new WXWebpageObject();
-		webpage.webpageUrl = "http://s-210283.gotocdn.com:9090/yjhb/server/desc";
+		webpage.webpageUrl = "http://116.255.186.54:9090/yjhb/server/desc";
 		WXMediaMessage msg = new WXMediaMessage(webpage);
 		msg.title = "你还在为出行发愁吗？试试便捷的滑板车吧！";
 		msg.description = "滑板车租赁、销售，解决您的出行问题！";
