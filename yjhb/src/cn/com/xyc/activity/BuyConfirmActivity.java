@@ -25,6 +25,7 @@ import cn.com.xyc.util.Constant;
 import cn.com.xyc.util.Result;
 import cn.com.xyc.util.SignUtils;
 import cn.com.xyc.util.StringUtil;
+import cn.com.xyc.view.EditLabelText;
 import cn.com.xyc.view.LabelText;
 import cn.com.xyc.vo.PayResult;
 
@@ -39,7 +40,10 @@ public class BuyConfirmActivity extends BaseActivity {
 	private LabelText ltmodel;
 	private LabelText lttotalfee;
 	private Button btnOk; 
-	private LabelText  elt_address;
+	private LabelText elt_uname ;
+	private LabelText elt_provice ;
+	private LabelText elt_area ;
+	private LabelText elt_detailaddress ;
 	String outTradeNo="";
 	com.alibaba.fastjson.JSONObject reqJson=null;
 	Result response=null;
@@ -191,7 +195,7 @@ public class BuyConfirmActivity extends BaseActivity {
 	public void pay() {
 		System.out.println("开始支付！");
 		// 订单
-		String orderInfo = getOrderInfo("游捷滑板", "游捷滑板", ((String)infoMap.get("fee")).replaceAll("元", ""));
+		String orderInfo = getOrderInfo("游捷用车", "游捷用车", ((String)infoMap.get("fee")).replaceAll("元", ""));
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo);
@@ -303,21 +307,30 @@ public class BuyConfirmActivity extends BaseActivity {
 	public void redvelopData() {
 		reqJson1=(JSONObject) JSON.toJSON(response1.result) ;
 		Integer carId=reqJson1.getInteger("carId");
-		Integer storeId=reqJson1.getInteger("storeId");
+		Integer storeId=new Integer(1000);
 		Double totalFee=reqJson1.getDouble("totalFee");
 		String payTime=reqJson1.getString("payTime");
 		String carModel=reqJson1.getString("carModel");
 		String getStoreName=reqJson1.getString("getStoreName");
 		String rentTime=reqJson1.getString("rentTime");
 		String address=reqJson1.getString("address");
+		String uname=reqJson1.getString("uname");
 		outTradeNo=reqJson1.getString("outTradeNo");
 		
 		infoMap.put("storeName", getStoreName);
 		infoMap.put("date", rentTime);
 		infoMap.put("model", carModel);
 		infoMap.put("fee", String.valueOf(totalFee));
-		infoMap.put("address", address);
-		 
+		String wholeAddress[]=address.split("\\|");
+		String province=wholeAddress[0];
+		String city=wholeAddress[1];
+		String detailAddress=wholeAddress[2];
+		
+		infoMap.put("uname", uname);
+		infoMap.put("provice", province);
+		infoMap.put("area", city);
+		infoMap.put("detailaddress", detailAddress);
+		
 		
 	}
 
@@ -331,14 +344,15 @@ public class BuyConfirmActivity extends BaseActivity {
 		CacheProcess c=new CacheProcess();
 		String mobileNo=c.getMobileNo(this);
 		reqJson.put("mobileNo", mobileNo);
+		reqJson.put("uname", (String)infoMap.get("uname"));
 		reqJson.put("carId", (Integer)infoMap.get("carId"));
-		reqJson.put("storeId", (Integer)infoMap.get("storeId"));
+		reqJson.put("storeId", new Integer(1000));
 		reqJson.put("totalFee", ((String)infoMap.get("fee")).replaceAll("元", ""));
 		reqJson.put("model", (String)infoMap.get("model"));
 		reqJson.put("carModel", (String)infoMap.get("model"));
 		reqJson.put("rentTime", (String)infoMap.get("date"));
 		reqJson.put("getStoreName", (String)infoMap.get("storeName"));
-		reqJson.put("address", (String)infoMap.get("address"));
+		reqJson.put("address", (String)infoMap.get("provice")+"|"+(String)infoMap.get("area")+"|"+(String)infoMap.get("detailaddress"));
 	}
 	
 	
@@ -398,13 +412,17 @@ mThread.start();
 		ltdate=(LabelText)findViewById(R.id.elt_time);
 		ltmodel=(LabelText)findViewById(R.id.elt_clxh);
 		lttotalfee=(LabelText)findViewById(R.id.elt_clxh_fee);
-		elt_address=(LabelText)findViewById(R.id.elt_address);
+		elt_uname=(LabelText)findViewById(R.id.elt_uname);
+		elt_provice=(LabelText)findViewById(R.id.elt_provice);
+		elt_area=(LabelText)findViewById(R.id.elt_area);
+		elt_detailaddress=(LabelText)findViewById(R.id.elt_detailaddress);
 		
-		ltmd.getValueText().setText((String)infoMap.get("storeName"));
-		ltdate.getValueText().setText((String)infoMap.get("date"));
 		ltmodel.getValueText().setText((String)infoMap.get("model"));
 		lttotalfee.getValueText().setText((String)infoMap.get("fee"));
-		elt_address.getValueText().setText((String)infoMap.get("address"));
+		elt_uname.getValueText().setText((String)infoMap.get("uname") );
+		elt_provice.getValueText().setText((String)infoMap.get("provice") );
+		elt_area.getValueText().setText((String)infoMap.get("area") );
+		elt_detailaddress.getValueText().setText((String)infoMap.get("detailaddress") );
 		
 		
 	}

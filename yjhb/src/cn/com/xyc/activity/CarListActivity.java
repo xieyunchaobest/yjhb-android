@@ -45,7 +45,7 @@ public class CarListActivity  extends BaseListActivity{
 
 	private ArrayList<Map<String, Object>> carList = new ArrayList<Map<String, Object>>();
 	private String[] key = {"item_img","item_model", "item_xh",
-			"item_fee","item_id"};
+			"item_fee","item_id","item_topPrice","item_priceM","item_priceE"};
 	String isCanDefectInput=null;
 	
 	Result response=null;
@@ -170,6 +170,9 @@ mThread.start();
 			Integer kmAmount=(Integer)m.get("kmCount");
 			Double price=((BigDecimal)m.get("price")).doubleValue();
 			String imgAddr=(String)m.get("imgAddr");
+			Double priceTop=((BigDecimal)m.get("topPrice")).doubleValue();
+			Double priceM=((BigDecimal)m.get("priceM")).doubleValue();
+			Double priceE=((BigDecimal)m.get("priceE")).doubleValue();
             
 			Map mm=new HashMap(); 
 			mm.put(key[0], imgAddr);
@@ -177,6 +180,9 @@ mThread.start();
 			mm.put(key[2], kmAmount+"公里");
 			mm.put(key[3], price+"元/小时");
 			mm.put(key[4], sid);
+			mm.put(key[5], priceTop);
+			mm.put(key[6], priceM);
+			mm.put(key[7], priceE);
 			
 			carList.add(mm);
 		}

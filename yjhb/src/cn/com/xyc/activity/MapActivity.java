@@ -123,7 +123,7 @@ public class MapActivity extends BaseActivity {
 		Bundle b=it.getExtras();
 		mBaiduMap = mMapView.getMap();
 		if(b==null) {
-			super.setTitleBar("游捷滑板",View.GONE,View.GONE,View.INVISIBLE,false);
+			super.setTitleBar("游捷用车",View.GONE,View.GONE,View.INVISIBLE,false);
 			DataPub d=new DataPub();
 			storeList=d.initStoreList(this);
 			

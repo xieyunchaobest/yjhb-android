@@ -1,13 +1,6 @@
 package cn.com.xyc.util;
 
 public class Constant {
-
-	
-	public static final String WE_CHART_ID = "wx104ecdfd7d944960";
-	public static final String STitle = "showmsg_title";
-	public static final String SMessage = "showmsg_message";
-	public static final String BAThumbData = "showmsg_thumb_data";
-	
 	
 	
 	public static String METHOD_GET_AUTO_CODE=context+"client/getAuthCode";

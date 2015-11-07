@@ -9,9 +9,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.xyc.R;
 import cn.com.xyc.activity.BaseActivity;
+import cn.com.xyc.activity.SettingActivity;
 import cn.com.xyc.util.ActivityUtil;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
@@ -70,6 +76,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 	HashMap getMap=null;
 	Map returnMap=null;
 	
+	Dialog dialog=null;
+	
 	HashMap infoMap=new HashMap();
 	
 	// 商户PID
@@ -100,6 +108,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 	com.alibaba.fastjson.JSONObject reqJson1=null;
 	String tradeNo=null;
 	
+	double bsxf=0d;
+	double syf=0d;
+	double  mdsxf=0d;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
@@ -123,6 +135,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 			if(orderId!=null && orderId.intValue()!=0) {
 				super.showProcessDialog(false);
 				requestOrderInfo();
+				cbShareWechat.setVisibility(View.GONE);
 			}else {
 				infoMap=(HashMap)intent.getSerializableExtra("info");//from page StoreInfo
 				initView();
@@ -167,16 +180,17 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 		Integer carId=reqJson1.getInteger("carId");
 		Integer storeId=reqJson1.getInteger("storeId");
 		Double totalFee=reqJson1.getDouble("totalFee");
+		Double syf1=reqJson1.getDouble("syf");
 		String payTime=reqJson1.getString("payTime");
 		String carModel=reqJson1.getString("carModel");
 		String getStoreName=reqJson1.getString("getStoreName");
 		String rentTime=reqJson1.getString("rentTime");
 		String returnStoreName=reqJson1.getString("returnStoreName");
 		String returnTime=reqJson1.getString("returnTime");
-		Double sxf=reqJson1.getDouble("sxf");
+		Double sxf1=reqJson1.getDouble("sxf");
 		Double sinFee=reqJson1.getDouble("sinFee");
 		Integer useTime=reqJson1.getInteger("useTime");
-		Double ydhcf=reqJson1.getDouble("ydhcf");
+		Double ydhcf1=reqJson1.getDouble("ydhcf");
 		outTradeNo=reqJson1.getString("outTradeNo");
 		
 		getMap=new HashMap();
@@ -192,11 +206,12 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 		returnMap.put("date", returnTime);
 		
 		feeMap=new HashMap();
-		feeMap.put("bsxf", sxf);
+		feeMap.put("bsxf", sxf1);
 		feeMap.put("sinfee", sinFee);
 		feeMap.put("useTime", useTime);
-		feeMap.put("mdsxf", ydhcf);
+		feeMap.put("mdsxf", ydhcf1);
 		feeMap.put("totalfee", totalFee);
+		feeMap.put("syf", syf1);
 		
 		infoMap.put("getMap", getMap);
 		infoMap.put("returnMap", returnMap);
@@ -232,13 +247,34 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 		ltreturnmd.getValueText().setText((String)returnMap.get("storeName"));
 		ltreturndate.getValueText().setText((String)returnMap.get("date"));
 		
-		double bsxf=(Double)feeMap.get("bsxf");
+		bsxf=(Double)feeMap.get("bsxf");
 		double sinfee=(Double)feeMap.get("sinfee");
 		int  useTime=(Integer)feeMap.get("useTime");
-		double  mdsxf=(Double)feeMap.get("mdsxf");
+		 mdsxf=(Double)feeMap.get("mdsxf");
+		syf=(Double)feeMap.get("syf");
 		double totalfee=(Double)feeMap.get("totalfee");
-		tvtxt_fee.setText("费用["+bsxf+"元手续费+"+sinfee+"元/h*"+useTime+"h+"+mdsxf+"元异店换车费]");
+		tvtxt_fee.setText("费用["+bsxf+"元手续费+"+syf+"元使用费+"+mdsxf+"元异店换车费]");
 		lttotalfee.getValueText().setText(totalfee+"");
+		
+		dialog=new AlertDialog.Builder(WXEntryActivity.this).setIcon(
+			     android.R.drawable.btn_star).setTitle("提示").setMessage(
+			     "尊敬的客户，到店时请携带本人身份证及信用卡（1000人民币额度）作为押金。").setPositiveButton("确定",
+			     new OnClickListener() {
+
+			      public void onClick(DialogInterface dialog, int which) {
+			    	  if(cbShareWechat.isChecked()) {
+							weChatShare();
+						}else {
+							createOrder();
+						}
+			      }
+			     }).setNegativeButton("取消", new OnClickListener() {
+
+			    public void onClick(DialogInterface dialog, int which) {
+			    	   dialog.dismiss();
+			    }
+			   }).create();
+		
 	}
 	
  
@@ -246,14 +282,35 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 		btn_submit_order.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(cbShareWechat.isChecked()) {
-					weChatShare();
-				}else {
-					createOrder();
-				}
-				
+				dialog.show();
+//				 if(cbShareWechat.isChecked()) {
+//						weChatShare();
+//					}else {
+//						createOrder();
+//					}
 			}
 		});
+		
+		cbShareWechat.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (cbShareWechat.isChecked()) {
+					System.out.println("已选中！");
+					bsxf=(Double)feeMap.get("bsxf");
+					tvtxt_fee.setText("费用["+0+"元手续费+"+syf+"元使用费+"+mdsxf+"元异店换车费]");
+					double totalfee=(Double)feeMap.get("totalfee");
+					lttotalfee.getValueText().setText((totalfee-bsxf)+"");
+				} else {
+					double totalfee=(Double)feeMap.get("totalfee");
+					bsxf=(Double)feeMap.get("bsxf");
+					tvtxt_fee.setText("费用["+bsxf+"元手续费+"+syf+"元使用费+"+mdsxf+"元异店换车费]");
+					lttotalfee.getValueText().setText(totalfee+"");
+					System.out.println("没选中！");
+				}
+			}
+		});
+
 		 
 	}
 	
@@ -378,7 +435,13 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 	public void pay() {
 		System.out.println("开始支付！");
 		// 订单
-		String orderInfo = getOrderInfo("游捷滑板", "游捷滑板", String.valueOf((Double)(feeMap.get("totalfee"))));
+		double totalfee=(Double)(feeMap.get("totalfee"));
+		if (cbShareWechat.isChecked()) {
+			bsxf=(Double)feeMap.get("bsxf");
+			totalfee=totalfee-bsxf;
+		}
+			
+		String orderInfo = getOrderInfo("游捷用车", "游捷用车", String.valueOf(totalfee));
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo);
@@ -537,18 +600,29 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 		reqJson.put("mobileNo", mobileNo);
 		reqJson.put("carId", (Integer)getMap.get("carId"));
 		reqJson.put("storeId", (Integer)getMap.get("storeId"));
-		reqJson.put("totalFee", (Double)feeMap.get("totalfee"));
+		
+	 
+		
 		
 		reqJson.put("carModel", (String)getMap.get("carModel"));
 		reqJson.put("getStoreName", (String)getMap.get("storeName"));
 		reqJson.put("rentTime", (String)getMap.get("date"));
 		reqJson.put("returnStoreName", (String)returnMap.get("storeName"));
 		reqJson.put("returnTime", (String)returnMap.get("date"));
+		Double syf=(Double)feeMap.get("bsxf");
+		Double totalFee=(Double)feeMap.get("totalfee");
+		reqJson.put("totalFee", (Double)feeMap.get("totalfee"));
+		reqJson.put("sxf",syf);
 		
-		reqJson.put("sxf",feeMap.get("bsxf"));
+		if (cbShareWechat.isChecked()) {
+			totalFee=totalFee-bsxf;
+			reqJson.put("totalFee",totalFee);
+		}
+		
 		reqJson.put("sinfee",(Double)feeMap.get("sinfee"));
 		reqJson.put("useTime",(Integer)feeMap.get("useTime"));
 		reqJson.put("ydhcf",(Double)feeMap.get("mdsxf"));
+		reqJson.put("syf",(Double)feeMap.get("syf"));
 		
 		
 	}

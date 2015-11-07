@@ -83,7 +83,7 @@ public class DatePicker extends PopupWindow implements OnClickListener {
 			yearAdapter = new DateNumericAdapter(context, curYear - 100, curYear+100,
 					100 - 20);
 			
-			hourAdapter= new DateNumericAdapter(context, 9, 18,
+			hourAdapter= new DateNumericAdapter(context, 9, 19,
 					10);
 			hour.setViewAdapter(hourAdapter);
 			hour.setCurrentItem(1);

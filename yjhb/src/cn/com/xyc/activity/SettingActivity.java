@@ -145,18 +145,19 @@ public class SettingActivity extends BaseActivity {
 		ltdqbb.getValueText().setText("1.0");
 		ltquestion=(LabelText)findViewById(R.id.elt_question);
 		logoutButton=(Button)findViewById(R.id.btn_logout);
-		dialog = new AlertDialog.Builder(this).setIcon(
-			     android.R.drawable.btn_star).setTitle("呼叫").setMessage(
-			     "是否电话联系客服").setPositiveButton("是",
+		dialog = new AlertDialog.Builder(this)
+			.setIcon(android.R.drawable.btn_star)
+			.setTitle("呼叫")
+			.setMessage("是否电话联系客服")
+			.setPositiveButton("是",
 			     new OnClickListener() {
-
 			      public void onClick(DialogInterface dialog, int which) {
 			    	     Intent intent = new Intent(Intent.ACTION_CALL , Uri.parse("tel:" +  "01082886982"));  
 			                //相应事件   
 			    	     SettingActivity.this.startActivity(intent);  
 			      }
-			     }).setNegativeButton("否", new OnClickListener() {
-
+			     })
+			.setNegativeButton("否", new OnClickListener() {
 			    public void onClick(DialogInterface dialog, int which) {
 			    	   dialog.dismiss();
 			    }

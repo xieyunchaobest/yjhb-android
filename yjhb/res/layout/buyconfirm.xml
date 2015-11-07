@@ -15,47 +15,68 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="vertical" >
-     
-    <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_mdmc"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="5dp"
-        bgImage="@drawable/group_select_top_o"
-        label="@string/mdmc"
-        android:paddingLeft="10.0dip" />
-    
-    <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_time"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        bgImage="@drawable/group_select_mid_o"
-        label="@string/ycsj"
-        android:paddingLeft="10.0dip" />
-    
+ 
     <cn.com.xyc.view.LabelText
         android:id="@+id/elt_clxh"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        bgImage="@drawable/group_select_mid_o"
+        android:layout_marginTop="30dp"
+        bgImage="@drawable/bg_select"
         label="@string/clxh"
         android:paddingLeft="10.0dip" />
     
-     <cn.com.xyc.view.LabelText
-        android:id="@+id/elt_address"
+     <TextView
+        android:id="@+id/txt_uaddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="收货人信息" />
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_uname"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_top_o"
+        label="@string/xm"
+        android:paddingLeft="10.0dip" >
+    </cn.com.xyc.view.LabelText>
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_provice"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_mid_o"
+        label="@string/provice"
+        android:paddingLeft="10.0dip" >
+    </cn.com.xyc.view.LabelText>
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_area"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        bgImage="@drawable/group_select_mid_o"
+        label="@string/city"
+        android:paddingLeft="10.0dip" >
+    </cn.com.xyc.view.LabelText>
+    
+    <cn.com.xyc.view.LabelText
+        android:id="@+id/elt_detailaddress"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         bgImage="@drawable/group_select_bottom_o"
-        label="@string/shdz"
-        android:paddingLeft="10.0dip" />
+        label="@string/detail_address"
+        android:paddingLeft="10.0dip" >
+    </cn.com.xyc.view.LabelText>
      
     </LinearLayout>
     

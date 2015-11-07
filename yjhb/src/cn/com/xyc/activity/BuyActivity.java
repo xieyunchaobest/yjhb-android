@@ -25,11 +25,12 @@ import com.alibaba.fastjson.JSONObject;
 
 public class BuyActivity extends BaseActivity {
 	
-	private LabelText ltmd;//取车门店
-	private LabelText ltdate;
 	private LabelText ltmodel;
 	private LabelText lttotalfee;
-	private EditLabelText elt_address ;
+	private EditLabelText elt_uname ;
+	private EditLabelText elt_provice ;
+	private EditLabelText elt_area ;
+	private EditLabelText elt_detailaddress ;
 	private Button btnOk;
 	private int STORE_GET_CODE=0;
 	private int STORE_RETURN_CODE=1;
@@ -71,46 +72,19 @@ public class BuyActivity extends BaseActivity {
 	}
 	
 	
-	public void initView() {
-		ltmd=(LabelText)findViewById(R.id.elt_mdmc);
-		ltdate=(LabelText)findViewById(R.id.elt_time);
+	public void initView() { 
 		ltmodel=(LabelText)findViewById(R.id.elt_clxh);
 		lttotalfee=(LabelText)findViewById(R.id.elt_clxh_fee);
 		lttotalfee.getValueText().setText("0元");
-		elt_address=(EditLabelText)findViewById(R.id.elt_address);
+		  elt_uname= (EditLabelText)findViewById(R.id.elt_uname);
+		 elt_provice = (EditLabelText)findViewById(R.id.elt_provice);
+		 elt_area = (EditLabelText)findViewById(R.id.elt_area); ;
+		elt_detailaddress=(EditLabelText)findViewById(R.id.elt_detailaddress);
 		btnOk=(Button)findViewById(R.id.btn_buy);
 	}
 	
 	
 	protected void registerListener() {
-		ltmd.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(BuyActivity.this,
-						StoreListActivity.class);
-				intent.putExtra("fromFlag", STORE_GET_CODE);
-				
-				startActivityForResult(intent,STORE_GET_CODE);
-			}
-		});
-		
- 
-		
-		ltdate.setOnClickListener(new OnClickListener() {			
-				public void onClick(View v) {
-					DatePicker	birth = new DatePicker(BuyActivity.this, new DateTimeSetListener() {
-						public void onDateSet(int year, int month,
-								int day,int hour) {
-							ltdate.getValueText().setText(year+"-"+(month>10?month:"0"+month)+"-"+day+" "+hour+":00");
-						}
-						 
-					});
-					birth.showAtLocation(BuyActivity.this.findViewById(R.id.root),
-							Gravity.BOTTOM, 0, 0);
-				}
-			});
-		
- 
 		ltmodel.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -130,11 +104,12 @@ public class BuyActivity extends BaseActivity {
 			 Intent intent = new Intent();
 			 intent.setClass(BuyActivity.this, BuyConfirmActivity.class);
 			
-			 m.put("storeName", ltmd.getValueText().getText());
-			 m.put("date", ltdate.getValueText().getText());
 			 m.put("model", ltmodel.getValueText().getText());
 			 m.put("fee", lttotalfee.getValueText().getText());
-			 m.put("address", elt_address.getValueText().getText().toString());
+			 m.put("uname", elt_uname.getValueText().getText().toString());
+			 m.put("provice", elt_provice.getValueText().getText().toString());
+			 m.put("area", elt_area.getValueText().getText().toString());
+			 m.put("detailaddress", elt_detailaddress.getValueText().getText().toString());
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("info", m);
 			intent.putExtras(bundle);
@@ -146,18 +121,30 @@ public class BuyActivity extends BaseActivity {
 	}
 	
 	public boolean validate() {
-		if(StringUtil.isBlank(ltmd.getValueText().getText().toString())) {
-			 Toast.makeText(getApplicationContext(), "请选择门店名称！",
-						Toast.LENGTH_SHORT).show();
-			 return false;
-		}
-		if(StringUtil.isBlank(ltdate.getValueText().getText().toString())) {
-			 Toast.makeText(getApplicationContext(), "请选择购车时间！",
-						Toast.LENGTH_SHORT).show();
-			 return false;
-		}
+		 
 		if(StringUtil.isBlank(ltmodel.getValueText().getText().toString())) {
 			 Toast.makeText(getApplicationContext(), "请选择车辆型号！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		}
+		if(StringUtil.isBlank(elt_uname.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请填写姓名！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		}
+		if(StringUtil.isBlank(elt_provice.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请填写省份！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		}
+		
+		if(StringUtil.isBlank(elt_area.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请填写城市！",
+						Toast.LENGTH_SHORT).show();
+			 return false;
+		}
+		if(StringUtil.isBlank(elt_detailaddress.getValueText().getText().toString())) {
+			 Toast.makeText(getApplicationContext(), "请填写具体地址！",
 						Toast.LENGTH_SHORT).show();
 			 return false;
 		}
@@ -170,7 +157,7 @@ public class BuyActivity extends BaseActivity {
 			 if(requestCode==STORE_GET_CODE){
 		        	Bundle b=data.getExtras();
 		        	Map storemap=(Map)b.getSerializable("store");
-		        	ltmd.getValueText().setText((String)storemap.get("item_name"));
+//		        	ltmd.getValueText().setText((String)storemap.get("item_name"));
 		        	m.put("storeId", (Integer)storemap.get("item_id"));
 		        } else if(requestCode==CAR_GET_CODE){
 		        	Bundle b=data.getExtras();

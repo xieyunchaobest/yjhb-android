@@ -63,6 +63,18 @@
             android:id="@+id/item_id"
             android:layout_width="0dp"
             android:layout_height="0dp"    />
+         <TextView
+            android:id="@+id/item_topPrice"
+            android:layout_width="0dp"
+            android:layout_height="0dp"    />
+          <TextView
+            android:id="@+id/item_priceM"
+            android:layout_width="0dp"
+            android:layout_height="0dp"    />
+           <TextView
+            android:id="@+id/item_priceE"
+            android:layout_width="0dp"
+            android:layout_height="0dp"    />
     </RelativeLayout>
  
 </RelativeLayout>

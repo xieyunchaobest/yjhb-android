@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:text="游捷滑板承诺严格保密用户信息" />
+        android:text="游捷用车承诺严格保密用户信息" />
 
     <EditText
         android:id="@+id/login_mobile"

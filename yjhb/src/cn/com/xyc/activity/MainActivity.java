@@ -123,7 +123,7 @@ public class MainActivity extends TabActivity {
         main_tab_settings=(RadioButton)findViewById(R.id.main_tab_settings);
         
         intent=new Intent().setClass(this, MapActivity.class);
-        spec=tabHost.newTabSpec("游捷滑板").setIndicator("游捷滑板").setContent(intent);
+        spec=tabHost.newTabSpec("游捷用车").setIndicator("游捷用车").setContent(intent);
         tabHost.addTab(spec);
 
         intent=new Intent().setClass(this, RentActivity.class);
@@ -162,9 +162,9 @@ public class MainActivity extends TabActivity {
 	};
 	
     public void logout() {
-    	tabHost.setCurrentTabByTag("游捷滑板");
+    	tabHost.setCurrentTabByTag("游捷用车");
     	main_tab_settings.setChecked(false);
-    	tabHost.setCurrentTabByTag("游捷滑板");
+    	tabHost.setCurrentTabByTag("游捷用车");
     	CacheProcess c=new CacheProcess();
     	try {
 			c.save(this,Constant.LOCAL_STORE_KEY_USER, new com.alibaba.fastjson.JSONObject());

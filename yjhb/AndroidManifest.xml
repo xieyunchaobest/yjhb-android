@@ -55,7 +55,7 @@
         <activity
             android:name="cn.com.xyc.activity.MapActivity"
             android:exported="false"
-            android:label="游捷滑板"
+            android:label="游捷用车"
             android:screenOrientation="portrait"
             android:theme="@style/title" >
         </activity>
