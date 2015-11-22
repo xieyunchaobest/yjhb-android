@@ -25,6 +25,7 @@ import cn.com.xyc.R;
 import cn.com.xyc.util.ActivityUtil;
 import cn.com.xyc.util.CacheProcess;
 import cn.com.xyc.util.Constant;
+import cn.com.xyc.util.DateUtil;
 import cn.com.xyc.util.StringUtil;
 import cn.com.xyc.view.LabelText;
 import cn.com.xyc.view.datepicker.DatePicker;
@@ -217,6 +218,12 @@ public class RentActivity extends BaseActivity {
 	}
 	
 	
+	/**
+	 * 
+	 * @param getTime
+	 * @param returnTime
+	 * @return
+	 */
 	private long getDayDiff(String getTime,String returnTime) {
 		String returnTimeStrF= returnTime.replaceAll(" ", "").replaceAll(":", "").replaceAll("-", "");
 		 String getTimeStrF=getTime.replaceAll(" ", "").replaceAll(":", "").replaceAll("-", ""); 
@@ -297,41 +304,98 @@ public class RentActivity extends BaseActivity {
 		String zswfj=(String)zwfjxMap.get("configValue");//早晚分界线
 		
 		if(dayGet.equals(dayReturn)) {//如果一天，时间差*价格就行
+			System.out.println("=======一天");
 			 price=getHourDiff(startTime ,endTime)*singlePriceM;
 			 price=price>topPrice?topPrice:price;
 		}else if(getDayDiff(getTimeStrF,returnTimeStrF)>0d &&  getDayDiff(getTimeStrF,returnTimeStrF)<2d) {//两天
-			String fistDayEndTime=getTimeStrF.substring(0,8)+zswfj+"00";
-			double firstDayPrice=getHourDiff(getTimeStrF,fistDayEndTime)*singlePriceM;
-			firstDayPrice=firstDayPrice>topPrice?topPrice:firstDayPrice;
+			System.out.println("=======2天");
 			
+			String fistDayEndTime=getTimeStrF.substring(0,8)+zswfj+"00";
+			//double firstDayPrice=getHourDiff(getTimeStrF,fistDayEndTime)*singlePriceM;
+			//firstDayPrice=firstDayPrice>topPrice?topPrice:firstDayPrice;
 			
 			String secDayStartTime=returnTimeStrF.substring(0,8)+"0900";
-			double secDayPirce=getHourDiff(secDayStartTime,returnTimeStrF)*singlePriceM;
-			secDayPirce=secDayPirce>topPrice?topPrice:secDayPirce;
 			
-			price=firstDayPrice+singlePriceE+secDayPirce;
-			
+			long hourDiff=getHourDiff(getTimeStrF,returnTimeStrF);
+			if(hourDiff<=24) {
+				double firstDayPrice=getHourDiff(getTimeStrF,fistDayEndTime)*singlePriceM;
+				double secDayPirce=getHourDiff(secDayStartTime,returnTimeStrF)*singlePriceM;
+				price=firstDayPrice+secDayPirce;
+				price=price>topPrice?topPrice:price;
+				price=price+singlePriceE;
+			}else {
+				double priceFirstDay=topPrice;//24小时内的峰值
+				double priceSecond=(getHourDiff(getTimeStrF,returnTimeStrF)-24)*singlePriceM;//24h外的时间
+				priceSecond=priceSecond>topPrice?topPrice:priceSecond;
+				price=priceFirstDay+priceSecond+singlePriceE;
+			}
 		}else {
+			System.out.println("多天");
 			double firstDayP=0d;
 			double midDayP=0d;
 			double lastDayP=0d;
-			 long dayDiff=getDayDiff(getTimeStrF,returnTimeStrF);
-			 for(long i=0l;i<=dayDiff;i++) {
-				 if(i==0) {
-					 String fistDayEndTime=getTimeStrF.substring(0,8)+zswfj+"00";
-					 firstDayP=getHourDiff(getTimeStrF,fistDayEndTime)*singlePriceM;
-					 firstDayP=firstDayP>topPrice?topPrice:firstDayP;
-				 }else if(i>0l && i<dayDiff){
-					 double wholedayp=getWholeDayPrice();
-					 midDayP=midDayP+wholedayp;
-				 }else {
-					 String lastDayStartTime=returnTimeStrF.substring(0,8)+"0900";
-						double lastDayPirce=getHourDiff(lastDayStartTime,returnTimeStrF)*singlePriceM;
-						lastDayPirce=lastDayPirce>topPrice?topPrice:lastDayPirce;
-						lastDayP=singlePriceE+lastDayPirce;
-				 }
-			 }
-			price=firstDayP+midDayP+lastDayP;
+			long dayDiff=getDayDiff(getTimeStrF,returnTimeStrF);
+			
+			long hourDiff=getHourDiff(getTimeStrF,returnTimeStrF);
+			int h24Count=(int)(hourDiff/24);
+			int extendHour=(int)(hourDiff%24);
+			//判断最后不足24h的时间是在一天内还是跨夜
+			String getDate=getTimeStrF.substring(0,8);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");  
+		    Date dGetDate=null;
+			try {
+				dGetDate = sdf.parse(getDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}  
+		    Date dEndDate=DateUtil.addDays(dGetDate, h24Count);//完整的天数，最后一天
+		    String sdate=(new SimpleDateFormat("yyyyMMdd")).format(dEndDate);  
+		    String endDay=returnTimeStrF.substring(0,8);
+		    
+		    double extendsPrice=0;
+		    if(sdate.equals(endDay)) {
+		    	extendsPrice= extendHour*singlePriceM;
+		    	extendsPrice=extendsPrice>topPrice?topPrice:extendsPrice;
+		    }else {//倒数第二天的零碎时间+最后一天的零碎时间
+		    	
+		    	long preLastHours=Long.parseLong(zswfj)-Long.parseLong(getTimeStrF.substring(8, 10));
+		    	double preLastPrice=preLastHours*singlePriceM;
+		    	
+		    	long lastHours=Long.parseLong(returnTimeStrF.substring(8,10))-9l;
+		    	double lastPrice=lastHours*singlePriceM;
+		    	
+		    	extendsPrice=preLastPrice+lastPrice;
+		    	extendsPrice=extendsPrice>topPrice?topPrice:extendsPrice;
+		    }
+			
+		    double evengingPrice=dayDiff*singlePriceE;
+		    
+		    price=h24Count*topPrice+extendsPrice+evengingPrice;
+//			 
+//			
+//			int extendHour=(int)(hourDiff%24);
+//			
+//			double wholeDayPrice=h24Count*topPrice;
+//			
+//			 
+//			 
+//			 
+//			 for(long i=0l;i<=dayDiff;i++) {
+//				 if(i==0) {
+//					 String fistDayEndTime=getTimeStrF.substring(0,8)+zswfj+"00";
+//					 firstDayP=getHourDiff(getTimeStrF,fistDayEndTime)*singlePriceM;
+//					 firstDayP=firstDayP>topPrice?topPrice:firstDayP;
+//				 }else if(i>0l && i<dayDiff){
+//					 double wholedayp=getWholeDayPrice();
+//					 midDayP=midDayP+wholedayp;
+//				 }else {
+//					 String lastDayStartTime=returnTimeStrF.substring(0,8)+"0900";
+//						double lastDayPirce=getHourDiff(lastDayStartTime,returnTimeStrF)*singlePriceM;
+//						lastDayPirce=lastDayPirce>topPrice?topPrice:lastDayPirce;
+//						lastDayP=singlePriceE+lastDayPirce;
+//				 }
+//			 }
+//			price=firstDayP+midDayP+lastDayP;
 			
 			
 		}
